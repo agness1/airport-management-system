@@ -2,7 +2,8 @@ import { FC } from "react";
 import Arrivals from "../components/FlightOperations/Arrivals";
 import Departures from "../components/FlightOperations/Departures";
 import General from "../components/Announcements/General";
-import Terminal from "../components/Announcements/Terminal";
+import Terminal from "../components/Terminal/Terminal";
+import Ground from "../components/Ground/Ground";
 const HomePage:FC = () => {
 return (
     <>
@@ -35,8 +36,9 @@ return (
           <p className='w-full bg-gray text-center text-black p-4 text-lg font-medium rounded-t-2xl'>Terminal</p>
           <Terminal/>
       </div>
-      <div className='bg-white  shadow-gray shadow-md rounded-2xl h-1/2 mt-2'>
+      <div className='bg-white  shadow-gray shadow-md rounded-2xl h-1/2 mt-2 overflow-y-scroll'>
       <p className='w-full bg-gray text-center text-wblack p-4 text-lg font-medium rounded-t-2xl'>Ground</p>
+      <Ground/>
       </div>
   </div>
 </div>
