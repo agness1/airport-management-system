@@ -25,7 +25,7 @@ return (
   </div>
   <div className=' flex flex-col gap-4 w-1/3'>
 <div className='h-1/2 bg-blue m-2 rounded-2xl shadow-blue shadow-2xl'></div>
-<div className='bg-white  shadow-gray shadow-md rounded-2xl  h-1/2 mt-2 overflow-y-scroll'>
+<div className='bg-white  shadow-gray shadow-md rounded-2xl  h-1/2 mt-2 overflow-y-scroll '>
       <p className='w-full bg-gray text-center text-black  p-4 text-lg font-medium rounded-t-2xl'>Announcements</p>
       <General/>
       </div>

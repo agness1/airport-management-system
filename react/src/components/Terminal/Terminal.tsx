@@ -24,7 +24,7 @@ return (
     return (
        <div className="mt-8 ">
         <div className="w-11/12 h-5/6 m-auto p-2 text-center ">
-<div className="flex gap-4 justify-center items-center mb-4 border-2 border-gray w-1/2 m-auto p-2 rounded-md">
+<div className="flex gap-4 justify-center items-center mb-4 border-2 border-gray w-3/5 m-auto p-2 rounded-md">
     <p className="font-medium">Status:</p>
     {status === 'open' ? openStatus() : closedStatus()}
 

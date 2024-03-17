@@ -25,15 +25,15 @@ const Ground: FC = () => {
 
             </table>
             <div className=" w-3/5 flex gap-4 justify-center items-center mb-4 border-2 border-gray m-auto p-2 rounded-md">
-                <p>RWY L</p>
+                <p className="font-bold">RWY L</p>
                 <p>Status:</p>
-                <p>Open</p>
+                <p className="font-medium">Open</p>
     <div className="h-4 w-4 bg-green rounded-full"></div>
             </div>
             <div className=" w-3/5 flex gap-4 justify-center items-center mb-4 border-2 border-gray m-auto p-2 rounded-md">
-                <p>RWY R</p>
+                <p className="font-bold">RWY R</p>
                 <p>Status:</p>
-                <p>Open</p>
+                <p className="font-medium">Open</p>
     <div className="h-4 w-4 bg-green rounded-full"></div>
             </div>
         </div>
