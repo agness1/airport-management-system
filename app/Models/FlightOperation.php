@@ -24,24 +24,24 @@ protected $fillable = [
 
 public function airline()
 {
-    return $this->belongsTo(Airline::class, 'AirlineID', 'id');
+    return $this->belongsTo(Airline::class, 'AirlineCodeID');
 }
 
 public function gate()
 {
-    return $this->hasOne(Gate::class, 'GateID', 'id');
+    return $this->belongsTo(Gate::class, 'GateID');
 }
 public function type()
 {
-    return $this->belongsTo(Type::class, 'TypeID', 'id');
+    return $this->belongsTo(Type::class, 'TypeID');
 }
 public function airport()
 {
-    return $this->belongsTo(Airport::class, 'AirportID', 'id');
+    return $this->belongsTo(Airport::class, 'AirportCodeID');
 }
 public function aircraft()
 {
-    return $this->hasOne(Aircraft::class, 'AircraftID', 'id');
+    return $this->belongsTo(Aircraft::class, 'AircraftCodeID');
 }
 
 }

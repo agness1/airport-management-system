@@ -28,3 +28,7 @@ Route::post('getFlightOperationData', [FlightOperationController::class, 'getFli
 
 
 
+Route::get('flightData', [FlightOperationController::class, 'showFlightData']);
+
+
+

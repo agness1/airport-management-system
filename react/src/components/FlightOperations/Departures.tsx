@@ -1,6 +1,32 @@
 import { FC } from "react";
 
-const Departures:FC = () => {
+const Departures:FC = (props) => {
+
+    const data = props.data
+    console.log(data)
+
+    const departures = () => {
+
+        if(data !== undefined) {
+            return (
+                 data.map((item) => {
+    return (
+     <tr>
+        <td className=" border-2 p-2  text-center">{item.time}</td>
+        <td className=" border-2 p-2 text-center">{item.airline}</td>
+        <td className=" border-2 p-2 text-center">{item.callSign}</td>
+        <td className=" border-2 p-2 text-center">{item.gate}</td>
+        <td className=" border-2 p-2 text-center">{item.airport}</td>
+    </tr>
+    )
+
+       })
+            )
+
+        }
+    }
+
+
     return (
         <div className="mt-8">
         <table className="w-11/12 h-5/6 bg-gray m-auto">
@@ -14,37 +40,7 @@ const Departures:FC = () => {
 </tr>
 </thead>
 <tbody>
-<tr>
-    <td className=" border-2 p-2  text-center">12:23</td>
-    <td className=" border-2 p-2 text-center">DFK</td>
-    <td className=" border-2 p-2 text-center">JAJDJ</td>
-    <td className=" border-2 p-2 text-center">3346</td>
-    <td className=" border-2 p-2 text-center">SKF</td>
-</tr>
-<tr>
-    <td className=" border-2 p-2  text-center">12:23</td>
-    <td className=" border-2 p-2 text-center">DFK</td>
-    <td className=" border-2 p-2 text-center">JAJDJ</td>
-    <td className=" border-2 p-2 text-center">3346</td>
-    <td className=" border-2 p-2 text-center">SKF</td>
-</tr>
-<tr>
-    <td className=" border-2 p-2  text-center">12:23</td>
-    <td className=" border-2 p-2 text-center">DFK</td>
-    <td className=" border-2 p-2 text-center">JAJDJ</td>
-    <td className=" border-2 p-2 text-center">3346</td>
-    <td className=" border-2 p-2 text-center">SKF</td>
-</tr>
-<tr>
-    <td className=" border-2 p-2  text-center">12:23</td>
-    <td className=" border-2 p-2 text-center">DFK</td>
-    <td className=" border-2 p-2 text-center">JAJDJ</td>
-    <td className=" border-2 p-2 text-center">3346</td>
-    <td className=" border-2 p-2 text-center">SKF</td>
-</tr>
-
-
-
+{departures()}
 </tbody>
         </table>
       </div>
