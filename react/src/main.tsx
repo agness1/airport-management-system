@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import Navigation from "./components/layout/navigation";
 import SignInPage from "./pages/auth/SignInPage";
 import FlightOperationsSupervisorPage from "./pages/Roles/FlightOperationsSupervisorPage";
-//import { FlightOperarionProvider } from "./contexts/ContextProvider";
+import { FlightOperarionProvider } from "./contexts/ContextProvider";
 import {
     createBrowserRouter,
     RouterProvider,
@@ -27,6 +27,8 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
        <Navigation/>
-    <RouterProvider router={router} />
+       <FlightOperarionProvider>
+         <RouterProvider router={router} />
+       </FlightOperarionProvider>
   </React.StrictMode>,
 )

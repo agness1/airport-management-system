@@ -26,9 +26,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], f
 
 Route::post('getFlightOperationData', [FlightOperationController::class, 'getFlightData']);
 
-
-
 Route::get('flightData', [FlightOperationController::class, 'showFlightData']);
 
+Route::delete('flight-operations/{id}', [FlightOperationController::class, 'deleteFlightData']);
 
 

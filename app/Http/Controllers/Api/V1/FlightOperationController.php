@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FlightOperation;
 
-class FlightOperationController extends Controller
-{
+    class FlightOperationController extends Controller
+    {
     public function getFlightData(Request $request)
     {
         $data = $request->all();
@@ -22,7 +22,7 @@ class FlightOperationController extends Controller
         'AircraftCodeID' => $data['aircraft'],
         ]);
 
-return response()->json(['message'=> 'Data added successfully', 'data' => $flightOperation], 201);
+    return response()->json(['message'=> 'Data added successfully', 'data' => $flightOperation], 201);
 
     }
 
@@ -35,6 +35,7 @@ return response()->json(['message'=> 'Data added successfully', 'data' => $fligh
         foreach($flightOperationData as $flightOperationItem) {
 
             $responseData[] = [
+            'id' => $flightOperationItem->id,
             'airline' => $flightOperationItem->airline->AirlineCode,
             'type' => $flightOperationItem->type->Type,
             'time' => $flightOperationItem->Time,
@@ -49,6 +50,18 @@ return response()->json(['message'=> 'Data added successfully', 'data' => $fligh
 
     return response()->json($responseData);
 
+    }
+
+    public function deleteFlightData ($id)
+    {
+        $flightOperation = FlightOperation::find($id);
+
+        if($flightOperation) {
+            $flightOperation->delete();
+            return response() -> json(['message' => 'Data deleted successfully'], 200);
+        } else {
+            return response()-> json(['message' => 'Flight operation not found'], 404);
+        }
     }
 
 }

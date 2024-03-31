@@ -2,6 +2,7 @@ import {FC, useEffect, useState} from "react";
 import DashboardInterface from "../../components/layout/DashboardInterface";
 import axios from 'axios';
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form"
+import FlightOperationsManager from "../../components/FlightOperations/FlightOperationsManager";
 
 const FlightOperationsSupervisorPage:FC = () => {
 
@@ -152,7 +153,7 @@ const sendFlightOperationData = (data) => {
 
 
 return (
-    <div className="flex">
+    <div className="flex ">
 <DashboardInterface/>
 <div className="bg-gray w-1/2 mx-auto my-8 flex flex-col items-center rounded-md">
 <h2 className="m-10 text-2xl font-medium">Add Flight Operation</h2>
@@ -207,7 +208,7 @@ sendFlightOperationData(data)
             </small>
     <button type="submit">Add</button>
 </form>
-<p></p>
+<FlightOperationsManager/>
 </div>
     </div>
 

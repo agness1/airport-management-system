@@ -4,33 +4,23 @@ import Departures from "../components/FlightOperations/Departures";
 import General from "../components/Announcements/General";
 import Terminal from "../components/Terminal/Terminal";
 import Ground from "../components/Ground/Ground";
-import axios from 'axios';
+import { useFlightOperaionContext } from "../contexts/ContextProvider";
 
 const HomePage:FC = () => {
 
-const [flightData, setFlightData] = useState();
 const [departures, setDepartures] = useState();
 const [arrival, setArrival] = useState();
 
-    useEffect(() => {
-        axios.get('http://localhost:8000/api/flightData')
-        .then(response => {
-        setFlightData(response.data)
-        })
-        .catch(error => {
-          console.error('Wystąpił błąd podczas pobierania danych:', error);
-        });
-
-    }, [])
+const flightOperationData = useFlightOperaionContext()
 
 useEffect(() => {
- if (flightData !== undefined) {
-    const departureList = flightData.filter((item) => item.type === 'Departure' );
+ if (flightOperationData !== undefined) {
+    const departureList = flightOperationData.filter((item) => item.type === 'Departure' );
     setDepartures(departureList);
-    const arrivalList = flightData.filter((item) => item.type === 'Arrival' );
+    const arrivalList = flightOperationData.filter((item) => item.type === 'Arrival' );
     setArrival(arrivalList)
     }
-}, [flightData])
+}, [flightOperationData])
 
 return (
     <>
