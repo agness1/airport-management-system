@@ -1,22 +1,33 @@
 import {FC, useEffect, useState} from "react";
 import DashboardInterface from "../../components/layout/DashboardInterface";
 import axios from 'axios';
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form"
+import { useForm,} from "react-hook-form"
 import FlightOperationsManager from "../../components/FlightOperations/FlightOperationsManager";
+
+interface Data {
+    time: string,
+    aircraft: string,
+    airline: string,
+    callSign: string,
+    type:string,
+    gate:string,
+    airport:string
+}
+
 
 const FlightOperationsSupervisorPage:FC = () => {
 
-    const [flightResources, setFlightResources] =  useState()
-    const [airline, setAirline] = useState();
-    const [aircraft, setAircraft] = useState();
+    const [flightResources, setFlightResources] =  useState<any>()
+    //const [airline, setAirline] = useState();
+    //const [aircraft, setAircraft] = useState();
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-      } = useForm({});
+      } = useForm<Data>();
 
-      const onSubmit = (data) => console.log(data);
+      const onSubmit = (data:any) => console.log(data);
 
 
       const registerOptions = {
@@ -71,7 +82,7 @@ const airlinesList = () => {
 
 if(flightResources !== undefined)
 {
-    const airlines = Object.values(flightResources.airlines).map((item) => <option value={item.id}>{item.AirlineCode}</option> )
+    const airlines = Object.values(flightResources.airlines).map((item:any) => <option className="font-medium" value={item.id}>{item.AirlineCode}</option> )
 
     return airlines
 } else return<option value=''>No data available</option>
@@ -83,7 +94,7 @@ if(flightResources !== undefined)
 const operationType= () => {
     if(flightResources !== undefined)
     {
-        const type = Object.values(flightResources.types).map((item) => <option value={item.id}>{item.Type}</option> )
+        const type = Object.values(flightResources.types).map((item:any) => <option value={item.id} className="font-medium">{item.Type}</option> )
 
         return type
     } else return<option value=''>No data available</option>
@@ -95,7 +106,7 @@ const operationType= () => {
 const gatesList= () => {
     if(flightResources !== undefined)
     {
-        const gate = Object.values(flightResources.gates).map((item) => <option value={item.id}>{item.Gate}</option> )
+        const gate = Object.values(flightResources.gates).map((item:any) => <option className="font-medium" value={item.id}>{item.Gate}</option> )
 
         return gate
     } else return<option value=''>No data available</option>
@@ -107,7 +118,7 @@ const gatesList= () => {
 const aircraftList= () => {
     if(flightResources !== undefined)
     {
-        const aircraft = Object.values(flightResources.aircrafts).map((item) => <option value={item.id}>{item.AircraftCode}</option> )
+        const aircraft = Object.values(flightResources.aircrafts).map((item:any) => <option className="font-medium" value={item.id}>{item.AircraftCode}</option> )
 
         return aircraft
     } else return<option value=''>No data available</option>
@@ -118,7 +129,7 @@ const aircraftList= () => {
 const airportList= () => {
     if(flightResources !== undefined)
     {
-        const airport= Object.values(flightResources.airports).map((item) => <option value={item.id}>{item.AirportCode}</option> )
+        const airport= Object.values(flightResources.airports).map((item:any) => <option className="font-medium" value={item.id}>{item.AirportCode}</option> )
 
         return airport
     } else return<option value=''>No data available</option>
@@ -126,87 +137,70 @@ const airportList= () => {
 
 }
 
-
-//const airlineResources = Object.values(flightResources.airlines)
-
-
-   /* axios.post('http://localhost:8000/api/getFlightOperationData', 'ok')
-    .then(response => {
-     console.log('ok')
-    })
-    .catch(error => {
-      console.error('Wystąpił błąd podczas pobierania danych:', error);
-    });
-*/
-
-
-
-const sendFlightOperationData = (data) => {
+const sendFlightOperationData = (data:any) => {
     axios.post('http://localhost:8000/api/getFlightOperationData', data)
-    .then(response => {
+    .then(() => {
      console.log(data)
     })
     .catch(error => {
       console.error('Wystąpił błąd podczas pobierania danych:', error);
     });
 }
-
-
 return (
-    <div className="flex ">
+    <div className="flex">
 <DashboardInterface/>
-<div className="bg-gray w-1/2 mx-auto my-8 flex flex-col items-center rounded-md">
-<h2 className="m-10 text-2xl font-medium">Add Flight Operation</h2>
+<div className="bg-gray w-1/2 mx-auto my-32 flex flex-col items-center rounded-md">
+<h2 className="mb-10 text-3xl font-medium w-full text-center bg-black p-4 rounded-t-md text-white">Add Flight Operation</h2>
 <form className="flex flex-col w-9/12 gap-2" onSubmit={handleSubmit((data)=>{
 onSubmit(data);
 sendFlightOperationData(data)
 })}>
-    <label >Type</label>
-    <select className="h-12" {...register("type", registerOptions.type)}>
+    <label className="font-medium p-2 text-xl" >Type</label>
+    <select className="h-12 rounded-md font-medium p-2" {...register("type", registerOptions.type)}>
 {operationType()}
     </select>
     <small className="text-danger text-red-700 font-medium text-sm">
               {errors?.type && errors.type.message}
             </small>
-    <label>Time</label>
-    <input type="time"{...register("time", registerOptions.time)}></input>
+    <label className="font-medium p-2 text-xl">Time</label>
+    <input className="h-12 rounded-md font-medium p-2" type="time"{...register("time", registerOptions.time)}></input>
     <small className="text-danger text-red-700 font-medium text-sm">
               {errors?.time && errors.time.message}
             </small>
-    <label>Airline</label>
-    <select {...register("airline", registerOptions.airline)}>
+    <label className="font-medium p-2 text-xl">Airline</label>
+    <select className="h-12 rounded-md font-medium p-2" {...register("airline", registerOptions.airline)}>
     {airlinesList()}
     </select>
     <small className="text-danger text-red-700 font-medium text-sm">
               {errors?.airline && errors.airline.message}
             </small>
-    <label>Call Sign</label>
-    <input type="text"  {...register("callSign", registerOptions.callSign)}></input>
+    <label className="font-medium p-2 text-xl">Call Sign</label>
+    <input className="h-12 rounded-md font-medium p-2" type="text"  {...register("callSign", registerOptions.callSign)}></input>
     <small className="text-danger text-red-700 font-medium text-sm">
               {errors?.callSign && errors.callSign.message}
             </small>
-    <label>Gate</label>
-    <select {...register("gate", registerOptions.gate)}>
+    <label className="font-medium p-2 text-xl">Gate</label>
+    <select className="h-12 rounded-md font-medium p-2" {...register("gate", registerOptions.gate)}>
         {gatesList()}
     </select>
     <small className="text-danger text-red-700 font-medium text-sm">
               {errors?.gate && errors.gate.message}
             </small>
-    <label>Airport</label>
-    <select  {...register("airport", registerOptions.airport)}>
+    <label className="font-medium p-2 text-xl">Airport</label>
+    <select className="h-12 rounded-md font-medium p-2" {...register("airport", registerOptions.airport)}>
         {airportList()}
     </select>
     <small className="text-danger text-red-700 font-medium text-sm">
               {errors?.airport && errors.airport.message}
             </small>
-    <label>Aircraft</label>
-    <select {...register("aircraft", registerOptions.aircraft)}>
+    <label className="font-medium p-2 text-xl">Aircraft</label>
+    <select className="h-12 rounded-md font-medium p-2" {...register("aircraft", registerOptions.aircraft)}>
         {aircraftList()}
     </select>
     <small className="text-danger text-red-700 font-medium text-sm">
               {errors?.aircraft && errors.aircraft.message}
             </small>
-    <button type="submit">Add</button>
+    <button className="bg-green p-4 text-white text-xl font-medium w-9/12 m-auto rounded-md mt-16 hover:bg-blue transition-all" type="submit">Add</button>
 </form>
 <FlightOperationsManager/>
 </div>

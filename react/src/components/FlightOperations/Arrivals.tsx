@@ -1,12 +1,16 @@
-import { FC } from "react";
 
-const Arrivals:FC = (props) => {
-const data = props.data
+interface ArrivalsProps {
+    data:any
+}
+
+
+const Arrivals:React.FC<ArrivalsProps> = ({data}) => {
+
 const arrivals = () => {
 
     if(data !== undefined) {
         return (
-             data.map((item) => {
+             data.map((item:any) => {
 return (
  <tr>
     <td className=" border-2 p-2  text-center">{item.time}</td>

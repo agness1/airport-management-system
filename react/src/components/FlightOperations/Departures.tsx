@@ -1,15 +1,16 @@
-import { FC } from "react";
 
-const Departures:FC = (props) => {
+interface DeparturesProps {
+    data:any
+}
 
-    const data = props.data
-    console.log(data)
+
+const Departures:React.FC<DeparturesProps>= ({data}) => {
 
     const departures = () => {
 
         if(data !== undefined) {
             return (
-                 data.map((item) => {
+                 data.map((item:any) => {
     return (
      <tr>
         <td className=" border-2 p-2  text-center">{item.time}</td>

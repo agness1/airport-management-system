@@ -1,21 +1,14 @@
 import { FC } from "react";
-//import { Link } from "react-router-dom";
 
 const Navigation: FC = () => {
     return (
-        <nav className="h-14 bg-black flex items-center justify-end">
-            <div className="flex  gap-8 mx-32 items-center text-white font-medium ">
-<p className="hover:text-green transition-colors cursor-pointer">Login</p>
+        <div className="h-14 w-4/5 absolute right-0  bg-black flex items-center justify-end">
+            <div className="flex  gap-8 mx-32 items-center text-white font-medium">
+<a href="/dashboard" className="hover:text-green transition-colors cursor-pointer">Login</a>
                 <p className="hover:text-green transition-colors cursor-pointer">Register</p>
+                <a href="/" className="hover:text-green transition-colors cursor-pointer">Home Page</a>
             </div>
-        </nav>
+        </div>
     );
 };
 export default Navigation;
-
-
-
-/*
-<Link to="/dashboard"> <p className="hover:text-green transition-colors cursor-pointer">Login</p> </Link>
-
-*/
