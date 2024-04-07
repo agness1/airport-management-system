@@ -23,7 +23,7 @@ return (
             </Link>
         </div>
         <div className="bg-blue w-10/12 rounded-2xl text-center p-4 text-white font-medium cursor-pointer">
-            <Link to="/">
+            <Link to="/dashboard/ground-menager">
         <p className="hover:text-black transition-all text-lg ">Ground</p>
             </Link>
 
