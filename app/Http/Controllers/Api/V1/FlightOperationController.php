@@ -7,7 +7,7 @@ use App\Models\FlightOperation;
 
     class FlightOperationController extends Controller
     {
-    public function getFlightData(Request $request)
+    public function createFlightData(Request $request)
     {
         $data = $request->all();
 

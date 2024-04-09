@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/components/.tsx"],
+  "include": ["src", "src/components/.tsx", "src/components/Announcements/AnnouncementMenager.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

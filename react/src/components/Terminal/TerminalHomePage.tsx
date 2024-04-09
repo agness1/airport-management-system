@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 
-const Terminal:FC = () => {
+const TerminalHomePage:FC = () => {
 
     const [status, setStatus] = useState('open')
 
@@ -40,4 +40,4 @@ return (
     )
 }
 
-export default Terminal;
+export default TerminalHomePage;

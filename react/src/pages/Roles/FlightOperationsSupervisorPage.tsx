@@ -18,9 +18,7 @@ interface Data {
 const FlightOperationsSupervisorPage:FC = () => {
 
     const [flightResources, setFlightResources] =  useState<any>()
-    //const [airline, setAirline] = useState();
-    //const [aircraft, setAircraft] = useState();
-
+ 
     const {
         register,
         handleSubmit,

@@ -18,7 +18,7 @@ class FlightResourceController extends Controller
 
 */
 
-public function index()
+public function showFlightResources()
 {
     $airlines = Airline::all();
     $aircrafts = Aircraft::all();

@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-const Ground: FC = () => {
+const GroundHomePage: FC = () => {
     return (
         <div className="mt-8 ">
             <table className="w-11/12 h-5/6 m-auto p-2 text-center bg-gray mb-8 ">
@@ -40,4 +40,4 @@ const Ground: FC = () => {
     );
 };
 
-export default Ground;
+export default GroundHomePage;
