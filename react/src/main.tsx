@@ -5,6 +5,7 @@ import Navigation from "./components/layout/navigation";
 import SignInPage from "./pages/auth/SignInPage";
 import FlightOperationsSupervisorPage from "./pages/Roles/FlightOperationsSupervisorPage";
 import TerminalMenagerPage from "./pages/Roles/TerminalMenagerPage";
+import RegisterPage from "./pages/auth/RegisterPage";
 import GroundMenagerPage from "./pages/Roles/GroundManagerPage";
 import { FlightOperarionProvider } from "./contexts/ContextProvider";
 import {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
     { path: "/dashboard/ground-menager", element: <GroundMenagerPage /> },
     { path: "*", element: <ErrorPage /> },
     { path: "signin", element: <SignInPage /> },
+    { path: "register", element: <RegisterPage /> },
 
   ]);
 

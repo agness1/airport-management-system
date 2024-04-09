@@ -128,7 +128,7 @@ const TerminalMenagerPage: FC = () => {
                         <AnnouncementMenager/>
                     </div>
                     <div className="flex flex-col p-8 w-1/2 bg-gray items-center gap-4 rounded-md">
-<TerminalMenager/>
+                        <TerminalMenager/>
                     </div>
              </div>
             </div>
