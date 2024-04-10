@@ -1,17 +1,19 @@
 import { FC } from "react";
 import useTerminalApi from "../../hooks/API/Terminal/useTerminalApi";
 import axios from "axios";
-const TerminalMenager:FC = () => {
+const TerminalManager:FC = () => {
 
     const api = useTerminalApi()
 
     const deleteEmergencies = async (id:string) => {
         try {
-            await axios.delete(`http://localhost:8000/api/emergencies/${id}`)
+            await axios.delete(`http://localhost:8000/api/emergencies/${id}`);
+            window.location.reload();
         } catch (error) {
-            console.log(error)
+            console.error( error);
         }
-            }
+    }
+
             const emergencyList = () => {
                 const emergencies = api.emergencies;
 
@@ -40,4 +42,4 @@ const TerminalMenager:FC = () => {
 
  }
 
- export default TerminalMenager
+ export default TerminalManager

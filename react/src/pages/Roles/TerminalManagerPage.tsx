@@ -4,7 +4,7 @@ import Switch from "@mui/material/Switch";
 import AnnouncementForm from "../../components/Announcements/AnnouncementForm";
 import AnnouncementMenager from "../../components/Announcements/AnnouncementMenager";
 import { useForm } from "react-hook-form";
-import TerminalMenager from "../../components/Terminal/TerminalMenager";
+import TerminalManager from "../../components/Terminal/TerminalManager";
 import axios from "axios";
 
 interface Data {
@@ -13,7 +13,7 @@ interface Data {
     description: string
 }
 
-const TerminalMenagerPage: FC = () => {
+const TerminalManagerPage: FC = () => {
 
     const {
         register,
@@ -50,17 +50,14 @@ const TerminalMenagerPage: FC = () => {
 
      }
 
-     const sendEmergenciesData = async (data: any) => {
+     const sendEmergenciesData = async (data:any) => {
         try {
-            await axios.post(
-                "http://localhost:8000/api/createEmergenciesData",
-                data
-            );
+            await axios.post('http://localhost:8000/api/createEmergenciesData', data);
+            window.location.reload();
         } catch (error) {
-            console.log(error);
+            console.error( error);
         }
-    };
-
+    }
 
     return (
         <div className="flex ">
@@ -128,7 +125,7 @@ const TerminalMenagerPage: FC = () => {
                         <AnnouncementMenager/>
                     </div>
                     <div className="flex flex-col p-8 w-1/2 bg-gray items-center gap-4 rounded-md">
-                        <TerminalMenager/>
+                        <TerminalManager/>
                     </div>
              </div>
             </div>
@@ -136,4 +133,4 @@ const TerminalMenagerPage: FC = () => {
     );
 };
 
-export default TerminalMenagerPage;
+export default TerminalManagerPage;

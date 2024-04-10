@@ -39,18 +39,15 @@ return (
 
     const onSubmit = (data: any) => console.log(data);
 
-    const sendAnnouncementData = async (data: any) => {
+    const sendAnnouncementData = async (data:any) => {
         try {
-            await axios.post(
-                "http://localhost:8000/api/createAnnouncementsData",
-                data
-            );
+            await axios.post('http://localhost:8000/api/createAnnouncementsData', data);
+            window.location.reload();
         } catch (error) {
-            console.log(error);
+            console.error( error);
         }
-    };
+    }
 
-   
     const registerOptions = {
         type: {
             required: "Type is required",

@@ -3,6 +3,7 @@ import DashboardInterface from "../../components/layout/DashboardInterface";
 import axios from 'axios';
 import { useForm,} from "react-hook-form"
 import FlightOperationsManager from "../../components/FlightOperations/FlightOperationsManager";
+import useFlightOperationApi from "../../hooks/API/FlightOperations/useFlightOperationApi";
 
 interface Data {
     time: string,
@@ -18,7 +19,15 @@ interface Data {
 const FlightOperationsSupervisorPage:FC = () => {
 
     const [flightResources, setFlightResources] =  useState<any>()
- 
+
+    const api = useFlightOperationApi();
+
+    const resources = api.flightResourcesData
+
+    useEffect(() => {
+        setFlightResources(resources)
+    }, [resources])
+
     const {
         register,
         handleSubmit,
@@ -60,90 +69,62 @@ const FlightOperationsSupervisorPage:FC = () => {
         },
       };
 
-
-useEffect(() => {
-    axios.get('http://localhost:8000/api/v1/flightOperationData')
-    .then(response => {
-    setFlightResources(response.data)
-     console.log(response.data)
-    })
-    .catch(error => {
-      console.error('Wystąpił błąd podczas pobierania danych:', error);
-    });
-
-}, [])
-
-
-console.log(flightResources)
-
 const airlinesList = () => {
 
-if(flightResources !== undefined)
+if(flightResources !== null && flightResources !== undefined)
 {
     const airlines = Object.values(flightResources.airlines).map((item:any) => <option className="font-medium" value={item.id}>{item.AirlineCode}</option> )
 
     return airlines
-} else return<option value=''>No data available</option>
-
+} else return <option value=''>No data available</option>
 
 }
 
-
 const operationType= () => {
-    if(flightResources !== undefined)
+    if(flightResources !== null && flightResources !== undefined)
     {
         const type = Object.values(flightResources.types).map((item:any) => <option value={item.id} className="font-medium">{item.Type}</option> )
 
         return type
-    } else return<option value=''>No data available</option>
-
-
+    } else return <option value=''>No data available</option>
 }
 
-
 const gatesList= () => {
-    if(flightResources !== undefined)
+    if(flightResources !== null && flightResources !== undefined)
     {
         const gate = Object.values(flightResources.gates).map((item:any) => <option className="font-medium" value={item.id}>{item.Gate}</option> )
 
         return gate
-    } else return<option value=''>No data available</option>
-
-
+    } else return <option value=''>No data available</option>
 }
 
-
 const aircraftList= () => {
-    if(flightResources !== undefined)
+    if(flightResources !== null && flightResources !== undefined)
     {
         const aircraft = Object.values(flightResources.aircrafts).map((item:any) => <option className="font-medium" value={item.id}>{item.AircraftCode}</option> )
 
         return aircraft
-    } else return<option value=''>No data available</option>
-
-
+    } else return <option value=''>No data available</option>
 }
 
 const airportList= () => {
-    if(flightResources !== undefined)
+    if(flightResources !== null && flightResources !== undefined)
     {
         const airport= Object.values(flightResources.airports).map((item:any) => <option className="font-medium" value={item.id}>{item.AirportCode}</option> )
 
         return airport
-    } else return<option value=''>No data available</option>
-
-
+    } else return <option value=''>No data available</option>
 }
 
-const sendFlightOperationData = (data:any) => {
-    axios.post('http://localhost:8000/api/getFlightOperationData', data)
-    .then(() => {
-     console.log(data)
-    })
-    .catch(error => {
-      console.error('Wystąpił błąd podczas pobierania danych:', error);
-    });
+const sendFlightOperationData = async (data:any) => {
+    try {
+        await axios.post('http://localhost:8000/api/createFlightOperationData', data);
+        window.location.reload();
+    } catch (error) {
+        console.error( error);
+    }
 }
+
 return (
     <div className="flex">
 <DashboardInterface/>

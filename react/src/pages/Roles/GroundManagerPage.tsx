@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import AnnouncementForm from "../../components/Announcements/AnnouncementForm";
 import AnnouncementMenager from "../../components/Announcements/AnnouncementMenager";
+import GroundManager from "../../components/Ground/GroundManager";
 
 interface Data {
     area: string;
@@ -14,7 +15,7 @@ interface Data {
 
 }
 
-const GroundMenagerPage: FC = () => {
+const GroundManagerPage: FC = () => {
     const {
         register,
         handleSubmit,
@@ -63,47 +64,20 @@ const GroundMenagerPage: FC = () => {
         } else return <option value="">No data available</option>;
     };
 
-    const RenovationsList = () => {
-        const renovations = groundApi.renovations;
 
-        if (renovations !== null) {
-            const renovation = renovations.map((item: any) => {
-                return (
-                    <div>
-                        <div className="flex flex-col items-center gap-4 p-4">
-                            <p className="text-xl font-medium">{item.area}</p>
-                            <p className="text-center">{item.startDate}</p>
-                            <p className="text-center">{item.endtDate}</p>
-                            <p className="text-center">{item.description}</p>
-                        </div>
-                        <button className="bg-blue p-2 text-white text-xl font-medium w-1/3 m-auto rounded-md hover:bg-green transition-all" onClick={() => deleteRenovations(item.id)}>
-                            Delete
-                        </button>
-                    </div>
-                );
-            });
-            return renovation
-        }
-    };
 
     const sendRenovationData = async (data: any) => {
         try {
             await axios.post(
-                "http://localhost:8000/api/getRenovationsData",
+                "http://localhost:8000/api/createRenovationsData",
                 data
+
             );
+            window.location.reload();
         } catch (error) {
             console.log(error);
         }
     };
-
-    const deleteRenovations = async (id:string) => {
-try {
-    await axios.delete(`http://localhost:8000/api/renovation/${id}`)
-} catch (error) {
-    console.log(error)
-}
-    }
 
     return (
         <div className="flex">
@@ -234,9 +208,9 @@ try {
 
                     <div className=" bg-gray w-1/2 mx-auto  flex flex-col items-center rounded-md ">
                         <h2 className="mb-10 text-3xl font-medium w-full text-center bg-black p-4 rounded-t-md text-white">
-                            Menage Renowation Works
+                            Manage Renowation Works
                         </h2>
-                       {RenovationsList()}
+                       <GroundManager/>
                     </div>
                 </div>
                 <AnnouncementMenager/>
@@ -245,4 +219,4 @@ try {
     );
 };
 
-export default GroundMenagerPage;
+export default GroundManagerPage;

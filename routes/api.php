@@ -15,9 +15,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function() {
-    Route::apiResource('flightOperationData', FlightResourceController::class);
-});
+
+
+Route::get('flightResourcesData', [FlightOperationController::class, 'showFlightResources']);
 
 Route::post('createFlightOperationData', [FlightOperationController::class, 'createFlightData']);
 

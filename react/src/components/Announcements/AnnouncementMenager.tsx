@@ -6,11 +6,13 @@ const AnnouncementMenager:FC = () => {
 
     const deleteAnnouncement = async (id:string) => {
         try {
-            await axios.delete(`http://localhost:8000/api/announcements/${id}`)
+            await axios.delete(`http://localhost:8000/api/announcements/${id}`);
+            window.location.reload();
         } catch (error) {
-            console.log(error)
+            console.error( error);
         }
-            }
+    }
+
             const announcementList = () => {
                 const announcements = api.announcements;
 

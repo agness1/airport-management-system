@@ -1,12 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import Arrivals from "../components/FlightOperations/Arrivals";
 import Departures from "../components/FlightOperations/Departures";
-import AnnouncementMenager from "../components/Announcements/AnnouncementMenager";
 import AnnouncementHomePage from "../components/Announcements/AnnouncementHomePage";
 import TerminalHomePage from "../components/Terminal/TerminalHomePage";
 import GroundHomePage from "../components/Ground/GroundHomePage";
-import { useFlightOperaionContext } from "../contexts/ContextProvider";
 import DashboardInterface from "../components/layout/DashboardInterface";
+import useFlightOperationApi from "../hooks/API/FlightOperations/useFlightOperationApi";
 
 
 const HomePage:FC = () => {
@@ -14,19 +13,19 @@ const HomePage:FC = () => {
 const [departures, setDepartures] = useState();
 const [arrival, setArrival] = useState();
 
-const flightOperationData:any = useFlightOperaionContext()
+const api = useFlightOperationApi()
 
-console.log(flightOperationData)
+const flightOperationData:any = api.flightOperations
+
 
 useEffect(() => {
- if (flightOperationData !== undefined) {
+ if (flightOperationData !== undefined && flightOperationData !== null) {
     const departureList = flightOperationData.filter((item:any) => item.type === 'Departure' );
     setDepartures(departureList);
     const arrivalList = flightOperationData.filter((item:any) => item.type === 'Arrival' );
     setArrival(arrivalList)
     }
 }, [flightOperationData])
-
 
 
 return (

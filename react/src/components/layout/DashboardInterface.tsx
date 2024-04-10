@@ -18,12 +18,12 @@ return (
 
         </div>
         <div className="bg-blue w-10/12 rounded-2xl text-center p-4 text-white font-medium cursor-pointer">
-            <Link to="/dashboard/terminal-menager" >
+            <Link to="/dashboard/terminal-manager" >
         <p className="hover:text-black transition-all text-lg ">Terminal</p>
             </Link>
         </div>
         <div className="bg-blue w-10/12 rounded-2xl text-center p-4 text-white font-medium cursor-pointer">
-            <Link to="/dashboard/ground-menager">
+            <Link to="/dashboard/ground-manager">
         <p className="hover:text-black transition-all text-lg ">Ground</p>
             </Link>
 
