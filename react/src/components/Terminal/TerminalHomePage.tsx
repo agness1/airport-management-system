@@ -1,6 +1,10 @@
 import { FC, useEffect, useState } from "react";
+import useTerminalApi from "../../hooks/API/Terminal/useTerminalApi";
 
 const TerminalHomePage:FC = () => {
+    const api = useTerminalApi()
+
+    const emergenciesData = api.emergencies
 
     const [status, setStatus] = useState('open')
 
@@ -20,7 +24,21 @@ return (
        <div className="h-4 w-4 bg-red-600 rounded-full"></div>
        </>
 )
+ }
+const emergenciesList = () => {
+    if(emergenciesData !== undefined && emergenciesData !== null) {
+        const emergency = emergenciesData.map((item:any) => {
+    return (
+        <div className="bg-white p-2">
+            <p>Title: {item.title}</p>
+            <p>Description: {item.description}</p>
+        </div>
+    )
+        })
+        return emergency
     }
+        }
+
     return (
        <div className="mt-8 ">
         <div className="w-11/12 h-5/6 m-auto p-2 text-center ">
@@ -30,9 +48,8 @@ return (
 
 </div>
 <h3 className="font-medium text-lg text-red-600 ">Emergencies</h3>
-<div className="bg-white p-2">
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis aperiam obcaecati distinctio esse velit illum iste incidunt, rerum, quibusdam magni molestias beatae animi, quae modi consectetur soluta excepturi dignissimos asperiores!</p>
-</div>
+
+{emergenciesList()}
 
 
         </div>

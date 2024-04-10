@@ -43,7 +43,7 @@ return response()->json([
                 'area' => $renovationItem->area->Area,
                 'description' => $renovationItem->Description,
                 'startDate' => $renovationItem->StartDate,
-                'endtDate' => $renovationItem->EndDate,
+                'endDate' => $renovationItem->EndDate,
             ];
         }
         return response()->json($responseData);

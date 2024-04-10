@@ -1,6 +1,31 @@
 import { FC } from "react";
+import useGroundApi from "../../hooks/API/Ground/useGroundApi";
+
 
 const GroundHomePage: FC = () => {
+
+const api = useGroundApi();
+
+const renovationsData:any = api.renovations;
+
+
+const renovationList =  () => {
+
+if(renovationsData !== undefined && renovationsData !== null) {
+    const renovations = renovationsData.map((item:any) => {
+        return (
+            <tr>
+    <td className=" border-2 p-2  text-center">{item.area}</td>
+    <td className=" border-2 p-2 text-center">{item.startDate}</td>
+    <td className=" border-2 p-2 text-center">{item.endDate}</td>
+    <td className=" border-2 p-2 text-center">{item.description}</td>
+</tr>
+        )
+    })
+    return renovations
+}
+}
+
     return (
         <div className="mt-8 ">
             <table className="w-11/12 h-5/6 m-auto p-2 text-center bg-gray mb-8 ">
@@ -15,12 +40,7 @@ const GroundHomePage: FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-<tr>
-    <td className=" border-2 p-2  text-center"></td>
-    <td className=" border-2 p-2 text-center"></td>
-    <td className=" border-2 p-2 text-center"></td>
-    <td className=" border-2 p-2 text-center"></td>
-</tr>
+{renovationList()}
 </tbody>
 
             </table>

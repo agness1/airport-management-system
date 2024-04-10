@@ -31,7 +31,7 @@ const GroundManager: FC = () => {
                     <div className="flex flex-col items-center gap-4 p-4">
                         <p className="text-xl font-medium">{item.area}</p>
                         <p className="text-center">{item.startDate}</p>
-                        <p className="text-center">{item.endtDate}</p>
+                        <p className="text-center">{item.endDate}</p>
                         <p className="text-center">{item.description}</p>
                     </div>
                     <button className="bg-blue p-2 text-white text-xl font-medium w-1/3 m-auto rounded-md hover:bg-green transition-all" onClick={() => deleteRenovations(item.id)}>
