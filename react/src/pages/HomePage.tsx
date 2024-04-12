@@ -5,17 +5,18 @@ import AnnouncementHomePage from "../components/Announcements/AnnouncementHomePa
 import TerminalHomePage from "../components/Terminal/TerminalHomePage";
 import GroundHomePage from "../components/Ground/GroundHomePage";
 import DashboardInterface from "../components/layout/DashboardInterface";
-import useFlightOperationApi from "../hooks/API/FlightOperations/useFlightOperationApi";
 
+import UseFetchApi from "../hooks/API/useFetchApi";
 
 const HomePage:FC = () => {
 
 const [departures, setDepartures] = useState();
 const [arrival, setArrival] = useState();
 
-const api = useFlightOperationApi()
 
-const flightOperationData:any = api.flightOperations
+const fetchFlightData =  UseFetchApi('http://localhost:8000/api/flightData')
+
+const flightOperationData = fetchFlightData.data
 
 
 useEffect(() => {

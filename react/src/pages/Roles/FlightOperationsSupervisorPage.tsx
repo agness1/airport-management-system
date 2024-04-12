@@ -3,7 +3,8 @@ import DashboardInterface from "../../components/layout/DashboardInterface";
 import axios from 'axios';
 import { useForm,} from "react-hook-form"
 import FlightOperationsManager from "../../components/FlightOperations/FlightOperationsManager";
-import useFlightOperationApi from "../../hooks/API/FlightOperations/useFlightOperationApi";
+
+import UseFetchApi from '../../hooks/API/useFetchApi';
 
 interface Data {
     time: string,
@@ -17,12 +18,15 @@ interface Data {
 
 
 const FlightOperationsSupervisorPage:FC = () => {
+    const fetchFlightResources =  UseFetchApi('http://localhost:8000/api/flightResourcesData')
+
+
 
     const [flightResources, setFlightResources] =  useState<any>()
 
-    const api = useFlightOperationApi();
 
-    const resources = api.flightResourcesData
+
+    const resources = fetchFlightResources.data
 
     useEffect(() => {
         setFlightResources(resources)

@@ -4,9 +4,9 @@ import UseFetchApi from '../../hooks/API/useFetchApi';
 
 const FlightOperationsManager:FC = () => {
 
-const fetchFlightResources =  UseFetchApi('http://localhost:8000/api/flightData')
+const fetchFlightData =  UseFetchApi('http://localhost:8000/api/flightData')
 
-const flightOperationData = fetchFlightResources.data
+const flightOperationData = fetchFlightData.data
 
 const deleteApi = async (url:string, id:string) => {
     const {message} = await DeleteApi(url,id)

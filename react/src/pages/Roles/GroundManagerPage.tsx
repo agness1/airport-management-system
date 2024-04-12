@@ -1,11 +1,11 @@
 import { FC } from "react";
 import DashboardInterface from "../../components/layout/DashboardInterface";
-import useGroundApi from "../../hooks/API/Ground/useGroundApi";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import AnnouncementForm from "../../components/Announcements/AnnouncementForm";
 import AnnouncementMenager from "../../components/Announcements/AnnouncementMenager";
 import GroundManager from "../../components/Ground/GroundManager";
+import UseFetchApi from '../../hooks/API/useFetchApi';
 
 interface Data {
     area: string;
@@ -16,6 +16,8 @@ interface Data {
 }
 
 const GroundManagerPage: FC = () => {
+    const fetchEmergencies =  UseFetchApi('http://localhost:8000/api/areaOfRenovation')
+
     const {
         register,
         handleSubmit,
@@ -48,10 +50,8 @@ const GroundManagerPage: FC = () => {
 
     };
 
-    const groundApi = useGroundApi();
-
     const areaOfRenovationList = () => {
-        const areas = groundApi.AreaOfRenovationdata;
+        const areas = fetchEmergencies.data;
 
         if (areas !== null) {
             const area = areas.area.map((item: any) => (

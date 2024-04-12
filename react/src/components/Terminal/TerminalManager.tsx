@@ -10,7 +10,6 @@ const TerminalManager:FC = () => {
         const {message} = await DeleteApi(url,id)
         console.log(message)
     }
-
             const emergencyList = () => {
                 const emergencies = fetchemergencies.data
 
