@@ -1,21 +1,18 @@
 import { FC } from "react";
-import useTerminalApi from "../../hooks/API/Terminal/useTerminalApi";
-import axios from "axios";
+import DeleteApi from '../../hooks/API/useDeleteApi';
+import UseFetchApi from '../../hooks/API/useFetchApi';
+
 const TerminalManager:FC = () => {
 
-    const api = useTerminalApi()
+    const fetchemergencies = UseFetchApi('http://localhost:8000/api/showEmergenciesData')
 
-    const deleteEmergencies = async (id:string) => {
-        try {
-            await axios.delete(`http://localhost:8000/api/emergencies/${id}`);
-            window.location.reload();
-        } catch (error) {
-            console.error( error);
-        }
+    const deleteApi = async (url:string, id:string) => {
+        const {message} = await DeleteApi(url,id)
+        console.log(message)
     }
 
             const emergencyList = () => {
-                const emergencies = api.emergencies;
+                const emergencies = fetchemergencies.data
 
                 if (emergencies !== null) {
                     const emergency = emergencies.map((item: any) => {
@@ -23,7 +20,7 @@ const TerminalManager:FC = () => {
                             <div className="flex flex-col items-center gap-4 p-2">
                             <p className="text-xl font-medium">{item.title}</p>
                             <p className="text-center">{item.description}</p>
-                            <button className="bg-blue p-2 text-white text-xl font-medium w-1/3 m-auto rounded-md hover:bg-green transition-all"onClick={() => deleteEmergencies(item.id)}>Delete</button>
+                            <button className="bg-blue p-2 text-white text-xl font-medium w-1/3 m-auto rounded-md hover:bg-green transition-all"onClick={() => deleteApi('http://localhost:8000/api/emergencies/', item.id)}>Delete</button>
                         </div>
                         );
                     });

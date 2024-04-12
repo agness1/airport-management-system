@@ -1,10 +1,11 @@
 import { FC, useEffect, useState } from "react";
-import useTerminalApi from "../../hooks/API/Terminal/useTerminalApi";
+import useFetchApi from "../../hooks/API/useFetchApi";
 
 const TerminalHomePage:FC = () => {
-    const api = useTerminalApi()
+    const groundFetchData = useFetchApi('http://localhost:8000/api/showEmergenciesData')
 
-    const emergenciesData = api.emergencies
+
+    const emergenciesData = groundFetchData.data
 
     const [status, setStatus] = useState('open')
 

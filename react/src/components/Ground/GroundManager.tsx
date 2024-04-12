@@ -1,27 +1,20 @@
 import { FC, useEffect, useState } from 'react'
-import axios from 'axios';
-import useGroundApi from '../../hooks/API/Ground/useGroundApi';
-const GroundManager: FC = () => {
+import DeleteApi from '../../hooks/API/useDeleteApi';
+import UseFetchApi from '../../hooks/API/useFetchApi';
 
+const GroundManager: FC = () => {
+    const fetchRenovations = UseFetchApi('http://localhost:8000/api/showRenovationsData')
+    const deleteApi = async (url:string, id:string) => {
+        const {message} = await DeleteApi(url,id)
+        console.log(message)
+    }
     const [data, setData] = useState<any>();
 
-    const api = useGroundApi()
-
-    const renovationData = api.renovations
+    const renovationData = fetchRenovations.data
 
     useEffect(() => {
     setData(renovationData)
     }, [renovationData])
-
-
-    const deleteRenovations = async (id:string) => {
-        try {
-            await axios.delete(`http://localhost:8000/api/renovation/${id}`);
-            window.location.reload();
-        } catch (error) {
-            console.error( error);
-        }
-    }
 
     const renovationsList = () => {
         if(data !== undefined && data !== null) {
@@ -34,7 +27,7 @@ const GroundManager: FC = () => {
                         <p className="text-center">{item.endDate}</p>
                         <p className="text-center">{item.description}</p>
                     </div>
-                    <button className="bg-blue p-2 text-white text-xl font-medium w-1/3 m-auto rounded-md hover:bg-green transition-all" onClick={() => deleteRenovations(item.id)}>
+                    <button className="bg-blue p-2 text-white text-xl font-medium w-1/3 m-auto rounded-md hover:bg-green transition-all" onClick={() => deleteApi('`http://localhost:8000/api/renovation/', item.id)}>
                         Delete
                     </button>
                 </div>
@@ -43,8 +36,6 @@ const GroundManager: FC = () => {
             return renovationData
         } else return <h3>No data available</h3>
     }
-
-
 
 
     return (

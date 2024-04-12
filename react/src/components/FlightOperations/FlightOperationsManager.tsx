@@ -1,33 +1,21 @@
-import { FC, useEffect, useState } from 'react'
-import axios from 'axios';
-
-import useFlightOperationApi from '../../hooks/API/FlightOperations/useFlightOperationApi';
+import { FC,} from 'react'
+import DeleteApi from '../../hooks/API/useDeleteApi';
+import UseFetchApi from '../../hooks/API/useFetchApi';
 
 const FlightOperationsManager:FC = () => {
 
-const [data, setData] = useState<any>();
+const fetchFlightResources =  UseFetchApi('http://localhost:8000/api/flightData')
 
-const api = useFlightOperationApi()
+const flightOperationData = fetchFlightResources.data
 
-const flightOperationData = api.flightOperations
-
-useEffect(() => {
-setData(flightOperationData)
-}, [flightOperationData])
-
-
-const deleteFlightOperation = async (id:string) => {
-    try {
-        await axios.delete(`http://localhost:8000/api/flight-operations/${id}`);
-        window.location.reload();
-    } catch (error) {
-        console.error( error);
-    }
+const deleteApi = async (url:string, id:string) => {
+    const {message} = await DeleteApi(url,id)
+    console.log(message)
 }
 
 const flightOperationList = () => {
-    if(data !== undefined && data !== null) {
-        const operaionData = data.map((item:any) => {
+    if(flightOperationData !== undefined && flightOperationData !== null) {
+        const operaionData = flightOperationData.map((item:any) => {
             return (
         <div className='w-9/12 bg-white p-4 rounded-md m-4'>
             <div className='flex gap-4 justify-around items-center font-medium'>
@@ -38,7 +26,8 @@ const flightOperationList = () => {
                 <p>{item.time}</p>
                 <p>{item.callSign}</p>
                 <p>{item.airport}</p>
-                <button className='bg-blue text-white p-2 px-4 rounded-md hover:bg-green transition-all' onClick={() => deleteFlightOperation(item.id)}>Delete</button>
+
+                <button className='bg-blue text-white p-2 px-4 rounded-md hover:bg-green transition-all' onClick={() => deleteApi('http://localhost:8000/api/flight-operations/', item.id)}>Delete</button>
             </div>
         </div>
             )

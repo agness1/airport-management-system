@@ -1,11 +1,10 @@
 import { FC } from "react";
-import useAnnouncementApi from "../../hooks/API/Announcements/useAnnouncementApi";
-
+import UseFetchApi from '../../hooks/API/useFetchApi';
 const AnnouncementHomePage:FC = () => {
-    const api = useAnnouncementApi();
-    const announcementData:any = api.announcements;
-
+    const fetchAnnouncements = UseFetchApi('http://localhost:8000/api/showAnnouncementsData')
+ const announcementData:any = fetchAnnouncements.data;
     const announcementsList = () => {
+
 if(announcementData !== undefined && announcementData !== null) {
     const announcement = announcementData.map((item:any) => {
 return (

@@ -1,18 +1,16 @@
 import { FC } from "react";
-import useGroundApi from "../../hooks/API/Ground/useGroundApi";
-
+import useFetchApi from "../../hooks/API/useFetchApi";
 
 const GroundHomePage: FC = () => {
 
-const api = useGroundApi();
+const groundFetchData = useFetchApi('http://localhost:8000/api/showRenovationsData')
 
-const renovationsData:any = api.renovations;
-
+ const areaOfRenovationData = groundFetchData.data
 
 const renovationList =  () => {
 
-if(renovationsData !== undefined && renovationsData !== null) {
-    const renovations = renovationsData.map((item:any) => {
+if(areaOfRenovationData !== undefined && areaOfRenovationData !== null) {
+    const renovations = areaOfRenovationData.map((item:any) => {
         return (
             <tr>
     <td className=" border-2 p-2  text-center">{item.area}</td>

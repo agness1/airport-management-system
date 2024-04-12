@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import useAnnouncementApi from "../../hooks/API/Announcements/useAnnouncementApi";
+import UseFetchApi from '../../hooks/API/useFetchApi';
+
 interface Data {
     type:string,
     title:string,
@@ -10,13 +11,10 @@ interface Data {
 
 const AnnouncementForm:FC = () => {
 
-
-const api = useAnnouncementApi()
-
-console.log(api)
+const announcementTypeListsData = UseFetchApi('http://localhost:8000/api/announcementType')
 
 const announcementTypeList = () => {
-    const announcementTypeList = api.AnnouncementTypedata;
+    const announcementTypeList = announcementTypeListsData.data
 
     if(announcementTypeList !== null) {
 
