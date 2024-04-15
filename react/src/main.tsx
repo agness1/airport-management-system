@@ -7,6 +7,7 @@ import FlightOperationsSupervisorPage from "./pages/Roles/FlightOperationsSuperv
 import TerminalManagerPage from "./pages/Roles/TerminalManagerPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import GroundManagerPage from "./pages/Roles/GroundManagerPage";
+import { ContextProvider } from "./contexts/ContextProvider";
 import {
     createBrowserRouter,
     RouterProvider,
@@ -31,7 +32,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Navigation/>
+    <ContextProvider>
+       <Navigation/>
          <RouterProvider router={router} />
+    </ContextProvider>
   </React.StrictMode>,
 )

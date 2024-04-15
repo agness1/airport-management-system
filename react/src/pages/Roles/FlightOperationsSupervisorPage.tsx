@@ -3,8 +3,9 @@ import DashboardInterface from "../../components/layout/DashboardInterface";
 import axios from 'axios';
 import { useForm,} from "react-hook-form"
 import FlightOperationsManager from "../../components/FlightOperations/FlightOperationsManager";
-
+import { useStateContext } from "../../contexts/ContextProvider";
 import UseFetchApi from '../../hooks/API/useFetchApi';
+import { Navigate } from "react-router-dom";
 
 interface Data {
     time: string,
@@ -18,13 +19,11 @@ interface Data {
 
 
 const FlightOperationsSupervisorPage:FC = () => {
+
+
     const fetchFlightResources =  UseFetchApi('http://localhost:8000/api/flightResourcesData')
 
-
-
     const [flightResources, setFlightResources] =  useState<any>()
-
-
 
     const resources = fetchFlightResources.data
 
@@ -129,6 +128,11 @@ const sendFlightOperationData = async (data:any) => {
     }
 }
 
+const {user, token} = useStateContext();
+
+if (!token) {
+    return <Navigate to="/signin"/>
+}
 return (
     <div className="flex">
 <DashboardInterface/>

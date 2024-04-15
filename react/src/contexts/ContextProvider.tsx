@@ -1,27 +1,47 @@
-import { createContext, useState, useEffect, FC, useContext  } from "react";
-import axios from 'axios';
+import { createContext, useState, useContext  } from "react";
 
+const StateContext = createContext( {
+    user:null,
+    token:null,
+    setUser: () => {},
+    setToken: () => {},
+})
 
-const FlightOperaionContext = createContext( {})
+export const ContextProvider = ({children}:any) => {
 
-export const FlightOperarionProvider:FC = ({ children }) => {
-    const [data, setData] = useState([]);
+    const [user, setUser] = useState({})
+    const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'))
+    const [role, _setRole] = useState(localStorage.getItem('ROLE'))
 
-    useEffect(() => {
-        axios.get('http://localhost:8000/api/flightData')
-        .then(response => {
-        setData(response.data)
-        })
-        .catch(error => {
-          console.error('Wystąpił błąd podczas pobierania danych:', error);
-        });
-
-    }, [])
+    const setToken = (token:any) => {
+        _setToken(token)
+        if(token) {
+            localStorage.setItem('ACCESS_TOKEN', token)
+        } else {
+            localStorage.removeItem('ACCESS_TOKEN')
+        }
+    }
+    const setRole = (role:string) => {
+       _setRole(role)
+        if(role) {
+            localStorage.setItem('ROLE', role)
+        } else {
+            localStorage.removeItem('ROLE')
+        }
+    }
     return (
-      <FlightOperaionContext.Provider value={data}>
-        {children}
-      </FlightOperaionContext.Provider>
-    );
-  };
+        <StateContext.Provider value={{
+user,
+token,
+role,
+setUser,
+setToken,
+setRole
+        }}>
+            {children}
 
-  export const useFlightOperaionContext = () => useContext(FlightOperaionContext)
+        </StateContext.Provider>
+    )
+}
+
+export const useStateContext = () => useContext(StateContext)
