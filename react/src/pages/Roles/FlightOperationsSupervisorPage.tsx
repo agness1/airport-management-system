@@ -1,11 +1,11 @@
 import {FC, useEffect, useState} from "react";
 import DashboardInterface from "../../components/layout/DashboardInterface";
-import axios from 'axios';
 import { useForm,} from "react-hook-form"
 import FlightOperationsManager from "../../components/FlightOperations/FlightOperationsManager";
 import { useStateContext } from "../../contexts/ContextProvider";
 import UseFetchApi from '../../hooks/API/useFetchApi';
 import { Navigate } from "react-router-dom";
+import UseSendDataApi from "../../hooks/API/useSendDataApi";
 
 interface Data {
     time: string,
@@ -22,6 +22,7 @@ const FlightOperationsSupervisorPage:FC = () => {
 
 
     const fetchFlightResources =  UseFetchApi('http://localhost:8000/api/flightResourcesData')
+
 
     const [flightResources, setFlightResources] =  useState<any>()
 
@@ -119,13 +120,13 @@ const airportList= () => {
     } else return <option value=''>No data available</option>
 }
 
-const sendFlightOperationData = async (data:any) => {
-    try {
-        await axios.post('http://localhost:8000/api/createFlightOperationData', data);
-        window.location.reload();
-    } catch (error) {
-        console.error( error);
-    }
+
+const {sendData} = UseSendDataApi()
+
+const sendFlightOperationData = (data:any) => {
+
+    sendData('http://localhost:8000/api/createFlightOperationData', data)
+
 }
 
 const {user, token} = useStateContext();
