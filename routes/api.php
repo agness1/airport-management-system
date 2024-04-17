@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\RenovationsController;
 use App\Http\Controllers\Api\V1\AnnouncementsController;
 use App\Http\Controllers\Api\V1\EmergenciesController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\V1\StatusController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -62,5 +63,9 @@ Route::post('createEmergenciesData', [EmergenciesController::class, 'createEmerg
 Route::get('showEmergenciesData', [EmergenciesController::class, 'showEmergencies']);
 
 Route::delete('emergencies/{id}', [EmergenciesController::class, 'deleteEmergencies']);
+
+Route::get('showStatus', [StatusController::class, 'showStatus']);
+
+Route::post('updateStatus', [StatusController::class, 'updateStatus']);
 
 
