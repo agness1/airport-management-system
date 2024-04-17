@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FlightOperationRequest;
 use Illuminate\Http\Request;
 use App\Models\FlightOperation;
 use App\Models\Aircraft;
@@ -32,9 +33,9 @@ use App\Models\Airport;
         }
 
 
-    public function createFlightData(Request $request)
+    public function createFlightData(FlightOperationRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
 
         $flightOperation = FlightOperation::create([
         'TypeID' => $data['type'],

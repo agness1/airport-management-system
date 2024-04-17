@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\V1\FlightResourceController;
 use App\Http\Controllers\Api\V1\RenovationsController;
 use App\Http\Controllers\Api\V1\AnnouncementsController;
 use App\Http\Controllers\Api\V1\EmergenciesController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\StatusController;
 
 use Illuminate\Http\Request;

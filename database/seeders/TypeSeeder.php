@@ -7,9 +7,6 @@ use Illuminate\Database\Seeder;
 use App\Models\type;
 class TypeSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $types = [

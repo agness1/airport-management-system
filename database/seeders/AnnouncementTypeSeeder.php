@@ -8,9 +8,6 @@ use App\Models\AnnouncementType;
 
 class AnnouncementTypeSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $types = [

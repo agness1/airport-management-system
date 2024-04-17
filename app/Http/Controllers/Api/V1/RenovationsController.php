@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\RenovationWorkRequest;
 use Illuminate\Http\Request;
 use App\Models\Renovations;
 use App\Models\AreaOfRenovation;
@@ -18,9 +18,9 @@ return response()->json([
 ]);
     }
 
-    public function createRenovation(Request $request)
+    public function createRenovation(RenovationWorkRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validate();
 
         $renovation = Renovations::create([
             'AreaID' => $data['area'],

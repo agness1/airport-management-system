@@ -7,9 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Aircraft;
 class AircraftSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+   
     public function run(): void
     {
         $aircraftCodes = [

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Announcements;
 use App\Models\AnnouncementType;
+use App\Http\Requests\AnnouncementRequest;
 
 class AnnouncementsController extends Controller
 {
@@ -18,9 +19,9 @@ class AnnouncementsController extends Controller
     ]);
     }
 
-    public function createAnnouncements(Request $request)
+    public function createAnnouncements(AnnouncementRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validate();
 
         $announcement = Announcements::create([
             'Title' => $data['title'],

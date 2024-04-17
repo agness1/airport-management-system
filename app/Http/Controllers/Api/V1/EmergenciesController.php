@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Emergencies;
-
+use App\Http\Requests\EmergencyRequest;
 use Illuminate\Http\Request;
 
 class EmergenciesController extends Controller
 {
 
-    public function createEmergencies(Request $request)
+    public function createEmergencies(EmergencyRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validate();
 
         $emergencies = Emergencies::create([
             'Title' => $data['title'],

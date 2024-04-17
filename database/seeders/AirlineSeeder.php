@@ -8,9 +8,7 @@ use App\Models\Airline;
 
 class AirlineSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+   
     public function run(): void
     {
         $airlines = [
