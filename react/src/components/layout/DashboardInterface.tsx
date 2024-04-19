@@ -4,11 +4,6 @@ import { Link } from "react-router-dom";
 
 const DashboardInterface: FC = () => {
 
-
-
-
-
-
 return (
         <div className="min-h-screen  bg-green w-1/5 flex flex-col items-center gap-16 py-32">
         <div className="bg-blue w-10/12 rounded-2xl text-center text-white  font-medium p-4 cursor-pointer">

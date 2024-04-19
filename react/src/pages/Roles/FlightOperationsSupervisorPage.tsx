@@ -6,6 +6,7 @@ import { useStateContext } from "../../contexts/ContextProvider";
 import UseFetchApi from '../../hooks/API/useFetchApi';
 import { Navigate } from "react-router-dom";
 import UseSendDataApi from "../../hooks/API/useSendDataApi";
+import AccessDeniedPage from "../auth/AccessDeniedPage";
 
 interface Data {
     time: string,
@@ -129,10 +130,10 @@ const sendFlightOperationData = (data:any) => {
 
 }
 
-const {user, token} = useStateContext();
+const {user, token, role} = useStateContext();
 
-if (!token) {
-    return <Navigate to="/signin"/>
+if (!token || (role !== 'Flight Operations Manager' && role !== 'Administrator')) {
+    return <AccessDeniedPage onData={'Flight Operations Manager'}/>
 }
 return (
     <div className="flex">

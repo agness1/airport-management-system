@@ -6,6 +6,8 @@ import AnnouncementForm from "../../components/Announcements/AnnouncementForm";
 import AnnouncementMenager from "../../components/Announcements/AnnouncementMenager";
 import GroundManager from "../../components/Ground/GroundManager";
 import UseFetchApi from '../../hooks/API/useFetchApi';
+import AccessDeniedPage from "../auth/AccessDeniedPage";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 interface Data {
     area: string;
@@ -78,7 +80,10 @@ const GroundManagerPage: FC = () => {
             console.log(error);
         }
     };
-
+    const {user, token, role} = useStateContext();
+    if (!token || (role !== 'Airport Ground Manager' && role !== 'Administrator')) {
+        return <AccessDeniedPage onData={'Airport Ground Manager'}/>
+    }
     return (
         <div className="flex">
             <DashboardInterface />

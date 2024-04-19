@@ -6,6 +6,8 @@ import AnnouncementMenager from "../../components/Announcements/AnnouncementMena
 import { useForm } from "react-hook-form";
 import TerminalManager from "../../components/Terminal/TerminalManager";
 import axios from "axios";
+import { useStateContext } from "../../contexts/ContextProvider";
+import AccessDeniedPage from "../auth/AccessDeniedPage";
 
 interface Data {
     type:string,
@@ -57,6 +59,10 @@ const TerminalManagerPage: FC = () => {
         } catch (error) {
             console.error( error);
         }
+    }
+    const {user, token, role} = useStateContext();
+    if (!token || (role !== 'Terminal Manager' && role !== 'Administrator')) {
+        return <AccessDeniedPage onData={'Terminal Manager'}/>
     }
 
     return (

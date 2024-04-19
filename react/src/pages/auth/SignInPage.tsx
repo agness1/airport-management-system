@@ -6,7 +6,7 @@ import {createRef} from "react";
 import { useStateContext } from "../../contexts/ContextProvider.js";
 import { useState } from "react";
 const SignInPage:FC = () => {
-    const emailRef = createRef()
+const emailRef = createRef()
   const passwordRef = createRef()
   const { setUser, setToken, setRole} = useStateContext()
   const [message, setMessage] = useState(null)
@@ -27,7 +27,7 @@ const SignInPage:FC = () => {
       .catch((err:any) => {
         const response = err.response;
         if (response && response.status === 422) {
-          setMessage(response.data.message)
+          setMessage(response.data.errors)
         }
       })
   }
