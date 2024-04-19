@@ -1,13 +1,13 @@
 import { FC, useEffect, useState } from "react";
-import useFetchApi from "../../hooks/API/useFetchApi";
+import UseFetchApi from "../../hooks/API/useFetchApi";
 
 const TerminalHomePage:FC = () => {
-    const groundFetchData = useFetchApi('http://localhost:8000/api/showEmergenciesData')
+    const groundFetchData = UseFetchApi('http://localhost:8000/api/showEmergenciesData')
 
 
     const emergenciesData = groundFetchData.data
 
-    const [status, setStatus] = useState('open')
+    const [status, setStatus] = useState()
 
 
     const openStatus = () => {
@@ -26,6 +26,17 @@ return (
        </>
 )
  }
+
+ const getStatus = UseFetchApi('http://localhost:8000/api/showStatus')
+
+
+useEffect (() => {
+    if(getStatus.data !== null && getStatus.data !== undefined) {
+        setStatus(getStatus.data.Terminal)
+    }
+},[getStatus.data])
+
+
 const emergenciesList = () => {
     if(emergenciesData !== undefined && emergenciesData !== null) {
         const emergency = emergenciesData.map((item:any) => {

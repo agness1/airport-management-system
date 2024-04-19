@@ -15,6 +15,8 @@ class Status extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'name'
+        'Terminal',
+        'RWYL',
+        'RWYR',
     ];
 }

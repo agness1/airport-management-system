@@ -1,9 +1,40 @@
-import { FC } from "react";
-import useFetchApi from "../../hooks/API/useFetchApi";
+import { FC, useState, useEffect } from "react";
+import UseFetchApi from "../../hooks/API/useFetchApi";
 
 const GroundHomePage: FC = () => {
 
-const groundFetchData = useFetchApi('http://localhost:8000/api/showRenovationsData')
+    const [statusRwyL, setStatusRwyL] = useState()
+    const [statusRwyR, setStatusRwyR] = useState()
+
+    const getStatus = UseFetchApi('http://localhost:8000/api/showStatus')
+
+
+    useEffect (() => {
+        if(getStatus.data !== null && getStatus.data !== undefined) {
+            setStatusRwyL(getStatus.data.RWYL)
+            setStatusRwyR(getStatus.data.RWYR)
+        }
+    },[getStatus.data])
+
+    const openStatus = () => {
+        return (
+            <>
+         <p>Open</p>
+            <div className="h-4 w-4 bg-green rounded-full"></div>
+            </>
+        )
+            }
+            const closedStatus = () => {
+        return (
+            <>
+            <p>Closed</p>
+               <div className="h-4 w-4 bg-red-600 rounded-full"></div>
+               </>
+        )
+         }
+
+
+const groundFetchData = UseFetchApi('http://localhost:8000/api/showRenovationsData')
 
  const areaOfRenovationData = groundFetchData.data
 
@@ -45,13 +76,13 @@ if(areaOfRenovationData !== undefined && areaOfRenovationData !== null) {
             <div className=" w-3/5 flex gap-4 justify-center items-center mb-4 border-2 border-gray m-auto p-2 rounded-md">
                 <p className="font-bold">RWY L</p>
                 <p>Status:</p>
-                <p className="font-medium">Open</p>
+                {statusRwyL === 'open' ? openStatus() : closedStatus()}
     <div className="h-4 w-4 bg-green rounded-full"></div>
             </div>
             <div className=" w-3/5 flex gap-4 justify-center items-center mb-4 border-2 border-gray m-auto p-2 rounded-md">
                 <p className="font-bold">RWY R</p>
                 <p>Status:</p>
-                <p className="font-medium">Open</p>
+                {statusRwyR === 'open' ? openStatus() : closedStatus()}
     <div className="h-4 w-4 bg-green rounded-full"></div>
             </div>
         </div>

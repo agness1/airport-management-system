@@ -1,6 +1,5 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import DashboardInterface from "../../components/layout/DashboardInterface";
-import Switch from "@mui/material/Switch";
 import AnnouncementForm from "../../components/Announcements/AnnouncementForm";
 import AnnouncementMenager from "../../components/Announcements/AnnouncementMenager";
 import { useForm } from "react-hook-form";
@@ -8,6 +7,9 @@ import TerminalManager from "../../components/Terminal/TerminalManager";
 import axios from "axios";
 import { useStateContext } from "../../contexts/ContextProvider";
 import AccessDeniedPage from "../auth/AccessDeniedPage";
+import {createRef} from "react";
+import UseSendDataApi from "../../hooks/API/useSendDataApi";
+import UseFetchApi from "../../hooks/API/useFetchApi";
 
 interface Data {
     type:string,
@@ -17,7 +19,15 @@ interface Data {
 
 const TerminalManagerPage: FC = () => {
 
-    const {
+const [status, setStatus] = useState()
+
+const onOptionChange= (e:any)  => {
+setStatus(e.target.value)
+ }
+
+ console.log(status)
+
+ const {
         register,
         handleSubmit,
         formState: { errors },
@@ -65,17 +75,41 @@ const TerminalManagerPage: FC = () => {
         return <AccessDeniedPage onData={'Terminal Manager'}/>
     }
 
+    const {sendData} = UseSendDataApi()
+    const getStatus = UseFetchApi('http://localhost:8000/api/showStatus')
+console.log(getStatus.data)
+const currentStatus = () => {
+if(getStatus.data !== null && getStatus.data !== undefined) {
+    const terminalStatus = <span>{getStatus.data.Terminal}</span>
+return terminalStatus
+} else return <p>No data available</p>
+
+}
+    const setTerminalStatus = (e:any) => {
+    e.preventDefault()
+    const statusData = status
+    const data = {
+    status: statusData,
+    part: 'terminal'
+    }
+    sendData('http://localhost:8000/api/updateStatus', data)
+    }
+
     return (
         <div className="flex ">
             <DashboardInterface />
             <div className="flex flex-col w-9/12 items-center mx-auto p-8">
-                <div className="mx-auto w-1/3 h-16 bg-gray my-32 flex items-center justify-evenly rounded-md">
-                    <p className="text-xl font-bold">Status</p>
-                    <div className="flex items-center gap-2">
-                        <p className="font-medium">Closed</p>
-                        <Switch  />
-                        <p className="font-medium">Open</p>
-                    </div>
+                <div className="mx-auto w-full h-24 bg-gray my-32 flex items-center justify-evenly rounded-md">
+                    <p className="text-xl font-bold">Status: <span>{currentStatus()}</span></p>
+                       <form className="flex w-1/2 items-center gap-4 " onSubmit={setTerminalStatus}>
+                        <label className="uppercase font-bold text-xl">Open</label>
+                        <input type="radio" name="status" value={'open'} onChange={onOptionChange}></input>
+                        <label className="uppercase font-bold text-xl">Closed</label>
+                        <input type="radio" name="status" value={'closed'} onChange={onOptionChange}></input>
+                        <button className="bg-green p-2 px-8 text-white text-xl font-medium m-auto rounded-md hover:bg-blue transition-all">
+                                Set Status
+                            </button>
+                       </form>
                 </div>
                 <div className="flex gap-10 w-full justify-center mx-auto mb-16">
                 <div className="bg-gray w-1/2 mx-auto  flex flex-col items-center rounded-md">

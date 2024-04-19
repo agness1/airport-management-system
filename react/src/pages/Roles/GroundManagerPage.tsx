@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import DashboardInterface from "../../components/layout/DashboardInterface";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -8,6 +8,9 @@ import GroundManager from "../../components/Ground/GroundManager";
 import UseFetchApi from '../../hooks/API/useFetchApi';
 import AccessDeniedPage from "../auth/AccessDeniedPage";
 import { useStateContext } from "../../contexts/ContextProvider";
+import UseSendDataApi from "../../hooks/API/useSendDataApi";
+
+
 
 interface Data {
     area: string;
@@ -20,6 +23,15 @@ interface Data {
 const GroundManagerPage: FC = () => {
     const fetchEmergencies =  UseFetchApi('http://localhost:8000/api/areaOfRenovation')
 
+    const [statusRwyL, setStatusRwyL] = useState()
+    const [statusRwyR, setStatusRwyR] = useState()
+
+    const RunwayLeftStatusHandler= (e:any)  => {
+        setStatusRwyL(e.target.value)
+    }
+    const RunwayRightStatusHandler= (e:any)  => {
+        setStatusRwyR(e.target.value)
+    }
     const {
         register,
         handleSubmit,
@@ -84,6 +96,45 @@ const GroundManagerPage: FC = () => {
     if (!token || (role !== 'Airport Ground Manager' && role !== 'Administrator')) {
         return <AccessDeniedPage onData={'Airport Ground Manager'}/>
     }
+
+    const {sendData} = UseSendDataApi()
+
+    const setRunwayLeftStatus = (e:any) => {
+        e.preventDefault()
+        const statusData = statusRwyL
+        const data = {
+        status: statusData,
+        part: 'rwyl'
+        }
+        sendData('http://localhost:8000/api/updateStatus', data)
+        }
+
+    const setRunwayRightStatus = (e:any) => {
+        e.preventDefault()
+        const statusData = statusRwyR
+        const data = {
+        status: statusData,
+        part: 'rwyr'
+        }
+        sendData('http://localhost:8000/api/updateStatus', data)
+        }
+
+
+        const getStatus = UseFetchApi('http://localhost:8000/api/showStatus')
+        const currentStatus = () => {
+        if(getStatus.data !== null && getStatus.data !== undefined) {
+        return (
+            <div>
+                <p>RWYL <span>{getStatus.data.RWYL}</span></p>
+                <p>RWYR <span>{getStatus.data.RWYR}</span></p>
+            </div>
+
+        )
+
+    } else return <p>No data available</p>
+
+        }
+
     return (
         <div className="flex">
             <DashboardInterface />
@@ -169,38 +220,42 @@ const GroundManagerPage: FC = () => {
                         </h2>
                         <h3 className="text-3xl font-medium mb-8">Runways</h3>
 
-                        <form className="flex gap-8 m-4 items-center flex-wrap justify-center" >
+                        <form className="flex gap-8 m-4 items-center flex-wrap justify-center" onSubmit={setRunwayLeftStatus} >
                             <p className="uppercase font-bold text-2xl">
                                 rwy l
                             </p>
                             <label className="font-medium text-xl text-green uppercase">
                                 Open
                             </label>
-                            <input type="radio" className="w-4 h-4"></input>
+                            <input type="radio"  name="status" value={'open'} onChange={RunwayLeftStatusHandler} className="w-4 h-4"></input>
                             <label className="font-medium text-xl text-red-700 uppercase">
                                 Closed
                             </label>
-                            <input type="radio" className="w-4 h-4"></input>
-                            <button className="bg-green p-4 mb-4 text-white text-xl font-medium w-9/12 m-auto rounded-md mt-4 hover:bg-blue transition-all">
+                            <input type="radio"  name="status" value={'closed'} onChange={RunwayLeftStatusHandler} className="w-4 h-4"></input>
+                            <button type="submit" className="bg-green p-4 mb-4 text-white text-xl font-medium w-9/12 m-auto rounded-md mt-4 hover:bg-blue transition-all">
                                 Set Status
                             </button>
                         </form>
-                        <form className="flex gap-8 m-4 items-center flex-wrap justify-center">
+                        <form className="flex gap-8 m-4 items-center flex-wrap justify-center" onSubmit={setRunwayRightStatus}>
                             <p className="uppercase font-bold text-2xl">
                                 rwy r
                             </p>
                             <label className="font-medium text-xl text-green uppercase">
                                 Open
                             </label>
-                            <input type="radio" className="w-4 h-4"></input>
+                            <input type="radio"  name="status" value={'open'} onChange={RunwayRightStatusHandler} className="w-4 h-4"></input>
                             <label className="font-medium text-xl text-red-700 uppercase">
                                 Closed
                             </label>
-                            <input type="radio" className="w-4 h-4"></input>
+                            <input type="radio" name="status" value={'closed'} onChange={RunwayRightStatusHandler} className="w-4 h-4"></input>
                             <button className="bg-green p-4 mb-4 text-white text-xl font-medium w-9/12 m-auto rounded-md mt-4 hover:bg-blue transition-all">
                                 Set Status
                             </button>
                         </form>
+                        <div>
+                            <p>Current runways status:</p>
+                           {currentStatus()}
+                        </div>
                     </div>
                 </div>
                 <div className="flex gap-10 w-full justify-center mx-auto mb-16">

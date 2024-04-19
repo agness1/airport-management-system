@@ -6,8 +6,8 @@ import {createRef} from "react";
 import { useStateContext } from "../../contexts/ContextProvider.js";
 import { useState } from "react";
 const SignInPage:FC = () => {
-const emailRef = createRef()
-  const passwordRef = createRef()
+const emailRef:any = createRef()
+  const passwordRef:any = createRef()
   const { setUser, setToken, setRole} = useStateContext()
   const [message, setMessage] = useState(null)
 
