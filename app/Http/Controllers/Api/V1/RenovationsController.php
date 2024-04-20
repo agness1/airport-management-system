@@ -20,7 +20,7 @@ return response()->json([
 
     public function createRenovation(RenovationWorkRequest $request)
     {
-        $data = $request->validate();
+        $data = $request->validated();
 
         $renovation = Renovations::create([
             'AreaID' => $data['area'],

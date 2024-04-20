@@ -9,7 +9,7 @@ const UseSendDataApi = () => {
 
             try {
                await axios.post(url, data);
-                window.location.reload();
+                //window.location.reload();
             } catch (error:any) {
                 const response = error.response;
         if (error.response.status == 422) {

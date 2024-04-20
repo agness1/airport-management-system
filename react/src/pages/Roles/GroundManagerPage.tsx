@@ -70,7 +70,7 @@ const GroundManagerPage: FC = () => {
             endDate,
             description,
         };
-        sendData('http://localhost:8000/api/createRenovationsData', formData)
+        sendData('http://localhost:8000/api/createRenovationsData',formData)
     }
 
 

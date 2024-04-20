@@ -19,7 +19,7 @@ class StatusController extends Controller
     public function updateStatus (Request $request)
 
     {
-        $request->validate([
+        $request->validated([
             'status' => 'required|in:open,closed',
             'part' => 'required|in:terminal,rwyl,rwyr',
         ]);

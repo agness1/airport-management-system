@@ -11,7 +11,7 @@ class EmergenciesController extends Controller
 
     public function createEmergencies(EmergencyRequest $request)
     {
-        $data = $request->validate();
+        $data = $request->validated();
 
         $emergencies = Emergencies::create([
             'Title' => $data['title'],

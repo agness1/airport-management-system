@@ -21,7 +21,7 @@ class AnnouncementsController extends Controller
 
     public function createAnnouncements(AnnouncementRequest $request)
     {
-        $data = $request->validate();
+        $data = $request->validated();
 
         $announcement = Announcements::create([
             'Title' => $data['title'],

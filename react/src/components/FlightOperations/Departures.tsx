@@ -29,7 +29,7 @@ const Departures:React.FC<DeparturesProps>= ({data}) => {
 
 
     return (
-        <div className="mt-8">
+        <div className="mt-8 px-4">
         <table className="w-11/12 h-5/6 bg-gray m-auto">
         <thead>
 <tr className="bg-blue">

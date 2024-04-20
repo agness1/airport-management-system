@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AnnouncementRequest extends FormRequest
+class announcementRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,8 @@ class AnnouncementRequest extends FormRequest
     {
         return [
             'type' => 'required',
-            'title' => 'required|string|min:5|max:20',
-            'description' => 'required|string|min:20|max:250',
+            'title' => 'required|min:5|max:20',
+            'description' => 'required|min:20|max:250',
         ];
     }
 }

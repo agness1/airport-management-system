@@ -41,12 +41,29 @@ const {dataError, sendData} = UseSendDataApi()
     const submit = (e:any) => {
         e.preventDefault()
         const formData = {
-            type,
             title,
             description,
+            type,
         };
-        sendData('http://localhost:8000/api/createAnnouncementsData', formData)
+console.log(formData)
+       // sendData('http://localhost:8000/api/createAnnouncementsData', formData)
     }
+
+
+const test = async (e:any) => {
+    e.preventDefault()
+    const formData = {
+        title,
+        description,
+        type,
+    };
+    console.log(formData)
+try {
+    await axios.post('http://localhost:8000/api/createAnnouncementsData', formData)
+} catch (error:any) {
+console.log(error)
+}
+}
 
     const showErrors = () => {
         if (dataError !== null && dataError.errors !== null) {
@@ -59,7 +76,7 @@ const {dataError, sendData} = UseSendDataApi()
     }
 
 return (
-    <form className="flex flex-col w-9/12 gap-4" onSubmit={submit} >
+    <form className="flex flex-col w-9/12 gap-4" onSubmit={test} >
         <label className="font-medium p-2 text-2xl text-center">Type</label>
         <select className="h-12 rounded-md font-medium p-2"  onChange={handleChangeType}>
           {announcementTypeList()}

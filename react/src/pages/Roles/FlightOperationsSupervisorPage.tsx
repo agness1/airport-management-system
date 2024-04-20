@@ -30,7 +30,7 @@ const FlightOperationsSupervisorPage:FC = () => {
     const [airport, setAirport] = useState('');
     const [aircraft, setAircraft] = useState('');
     const [error, setError] = useState('');
-
+console.log(type)
     const handleChangeType = (e:any) => setType(e.target.value);
     const handleChangeTime = (e:any) => setTime(e.target.value);
     const handleChangeAirline = (e:any) => setAirline(e.target.value);
@@ -117,6 +117,7 @@ const submit = (e:any) => {
         airport,
         aircraft
     };
+    console.log(formData)
     sendData('http://localhost:8000/api/createFlightOperationData', formData)
 }
 console.log(dataError)
