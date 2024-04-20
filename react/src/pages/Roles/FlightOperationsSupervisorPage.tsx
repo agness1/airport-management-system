@@ -7,6 +7,7 @@ import UseFetchApi from '../../hooks/API/useFetchApi';
 import { Navigate } from "react-router-dom";
 import UseSendDataApi from "../../hooks/API/useSendDataApi";
 import AccessDeniedPage from "../auth/AccessDeniedPage";
+import {createRef} from "react";
 
 interface Data {
     time: string,
@@ -21,6 +22,22 @@ interface Data {
 
 const FlightOperationsSupervisorPage:FC = () => {
 
+    const [type, setType] = useState('');
+    const [time, setTime] = useState('');
+    const [airline, setAirline] = useState('');
+    const [callSign, setCallSign] = useState('');
+    const [gate, setGate] = useState('');
+    const [airport, setAirport] = useState('');
+    const [aircraft, setAircraft] = useState('');
+    const [error, setError] = useState('');
+
+    const handleChangeType = (e:any) => setType(e.target.value);
+    const handleChangeTime = (e:any) => setTime(e.target.value);
+    const handleChangeAirline = (e:any) => setAirline(e.target.value);
+    const handleChangeCallSign = (e:any) => setCallSign(e.target.value);
+    const handleChangeGate = (e:any) => setGate(e.target.value);
+    const handleChangeAirport = (e:any) => setAirport(e.target.value);
+    const handleChangeAircraft = (e:any) => setAircraft(e.target.value);
 
     const fetchFlightResources =  UseFetchApi('http://localhost:8000/api/flightResourcesData')
 
@@ -32,47 +49,6 @@ const FlightOperationsSupervisorPage:FC = () => {
     useEffect(() => {
         setFlightResources(resources)
     }, [resources])
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-      } = useForm<Data>();
-
-      const onSubmit = (data:any) => console.log(data);
-
-
-      const registerOptions = {
-        time: {
-          required: "Time is required",
-        },
-        airline: {
-          required: "Airline is required",
-        },
-        callSign: {
-          required: "CallSign is required",
-          minLength: {
-            value: 5,
-            message: "Call Sign must have 5 characters",
-          },
-          maxLength: {
-            value: 5,
-            message: "Call Sign must have 5 characters",
-          },
-        },
-        aircraft: {
-          required: "Aircraft is required",
-        },
-        airport: {
-          required: "Airport is required",
-        },
-        gate: {
-          required: "Gate is required",
-        },
-        type: {
-          required: "Type is required",
-        },
-      };
 
 const airlinesList = () => {
 
@@ -122,75 +98,95 @@ const airportList= () => {
 }
 
 
-const {sendData} = UseSendDataApi()
-
-const sendFlightOperationData = (data:any) => {
-
-    sendData('http://localhost:8000/api/createFlightOperationData', data)
-
-}
+const {dataError, sendData} = UseSendDataApi()
 
 const {user, token, role} = useStateContext();
 
 if (!token || (role !== 'Flight Operations Manager' && role !== 'Administrator')) {
     return <AccessDeniedPage onData={'Flight Operations Manager'}/>
 }
+
+const submit = (e:any) => {
+    e.preventDefault()
+    const formData = {
+        type,
+        time,
+        airline,
+        callSign,
+        gate,
+        airport,
+        aircraft
+    };
+    sendData('http://localhost:8000/api/createFlightOperationData', formData)
+}
+console.log(dataError)
+
+
+const showErrors = () => {
+    if (dataError !== null && dataError.errors !== null) {
+   const flightOperationErrors =  Object.values(dataError.errors).map((item:any) => {
+    return <p>{item}</p>
+     })
+     return flightOperationErrors
+    }
+
+}
+
+
 return (
     <div className="flex">
 <DashboardInterface/>
 <div className="bg-gray w-1/2 mx-auto my-32 flex flex-col items-center rounded-md">
 <h2 className="mb-10 text-3xl font-medium w-full text-center bg-black p-4 rounded-t-md text-white">Add Flight Operation</h2>
-<form className="flex flex-col w-9/12 gap-2" onSubmit={handleSubmit((data)=>{
-onSubmit(data);
-sendFlightOperationData(data)
-})}>
+<form className="flex flex-col w-9/12 gap-2" onSubmit={submit} >
     <label className="font-medium p-2 text-xl" >Type</label>
-    <select className="h-12 rounded-md font-medium p-2" {...register("type", registerOptions.type)}>
+    <select className="h-12 rounded-md font-medium p-2" onChange={handleChangeType} >
 {operationType()}
     </select>
     <small className="text-danger text-red-700 font-medium text-sm">
-              {errors?.type && errors.type.message}
+              {}
             </small>
     <label className="font-medium p-2 text-xl">Time</label>
-    <input className="h-12 rounded-md font-medium p-2" type="time"{...register("time", registerOptions.time)}></input>
+    <input className="h-12 rounded-md font-medium p-2" type="time" onChange={handleChangeTime}></input>
     <small className="text-danger text-red-700 font-medium text-sm">
-              {errors?.time && errors.time.message}
+              {}
             </small>
     <label className="font-medium p-2 text-xl">Airline</label>
-    <select className="h-12 rounded-md font-medium p-2" {...register("airline", registerOptions.airline)}>
+    <select className="h-12 rounded-md font-medium p-2" onChange={handleChangeAirline} >
     {airlinesList()}
     </select>
     <small className="text-danger text-red-700 font-medium text-sm">
-              {errors?.airline && errors.airline.message}
+              {}
             </small>
     <label className="font-medium p-2 text-xl">Call Sign</label>
-    <input className="h-12 rounded-md font-medium p-2" type="text"  {...register("callSign", registerOptions.callSign)}></input>
+    <input className="h-12 rounded-md font-medium p-2" type="text" onChange={handleChangeCallSign}></input>
     <small className="text-danger text-red-700 font-medium text-sm">
-              {errors?.callSign && errors.callSign.message}
+              {}
             </small>
     <label className="font-medium p-2 text-xl">Gate</label>
-    <select className="h-12 rounded-md font-medium p-2" {...register("gate", registerOptions.gate)}>
+    <select className="h-12 rounded-md font-medium p-2" onChange={handleChangeGate} >
         {gatesList()}
     </select>
     <small className="text-danger text-red-700 font-medium text-sm">
-              {errors?.gate && errors.gate.message}
+              {}
             </small>
     <label className="font-medium p-2 text-xl">Airport</label>
-    <select className="h-12 rounded-md font-medium p-2" {...register("airport", registerOptions.airport)}>
+    <select className="h-12 rounded-md font-medium p-2" onChange={handleChangeAirport}>
         {airportList()}
     </select>
     <small className="text-danger text-red-700 font-medium text-sm">
-              {errors?.airport && errors.airport.message}
+              {}
             </small>
     <label className="font-medium p-2 text-xl">Aircraft</label>
-    <select className="h-12 rounded-md font-medium p-2" {...register("aircraft", registerOptions.aircraft)}>
+    <select className="h-12 rounded-md font-medium p-2" onChange={handleChangeAircraft}>
         {aircraftList()}
     </select>
     <small className="text-danger text-red-700 font-medium text-sm">
-              {errors?.aircraft && errors.aircraft.message}
+              {}
             </small>
     <button className="bg-green p-4 text-white text-xl font-medium w-9/12 m-auto rounded-md mt-16 hover:bg-blue transition-all" type="submit">Add</button>
 </form>
+{showErrors()}
 <FlightOperationsManager/>
 </div>
     </div>

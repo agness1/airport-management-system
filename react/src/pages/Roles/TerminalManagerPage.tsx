@@ -18,64 +18,34 @@ interface Data {
 }
 
 const TerminalManagerPage: FC = () => {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
 
-const [status, setStatus] = useState()
+    const handleChangeTitle = (e:any) => setTitle(e.target.value);
+    const handleChangeDescription = (e:any) => setDescription(e.target.value);
+
+    const [status, setStatus] = useState()
 
 const onOptionChange= (e:any)  => {
 setStatus(e.target.value)
  }
 
- console.log(status)
-
- const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<Data>();
-
-    const onSubmit = (data: any) => console.log(data);
-
-    const registerOptions = {
-
-        title: {
-            required: "Title is required",
-            minLength: {
-                value: 5,
-                message: "Title must have at least 5 characters",
-            },
-            maxLength: {
-                value: 20,
-                message: "Title must have max 20 characters",
-            },
-        },
-        description: {
-            required: "Description is required",
-            minLength: {
-                value: 20,
-                message: "Description must have at least 20 characters",
-            },
-            maxLength: {
-                value: 250,
-                message: "Description must have max 250 characters",
-            },
-        },
-
-     }
-
-     const sendEmergenciesData = async (data:any) => {
-        try {
-            await axios.post('http://localhost:8000/api/createEmergenciesData', data);
-            window.location.reload();
-        } catch (error) {
-            console.error( error);
-        }
+    const submit = (e:any) => {
+        e.preventDefault()
+        const formData = {
+            title,
+            description,
+        };
+        sendData('http://localhost:8000/api/createEmergenciesData', formData)
     }
+
+
     const {user, token, role} = useStateContext();
     if (!token || (role !== 'Terminal Manager' && role !== 'Administrator')) {
         return <AccessDeniedPage onData={'Terminal Manager'}/>
     }
 
-    const {sendData} = UseSendDataApi()
+    const {dataError, sendData} = UseSendDataApi()
     const getStatus = UseFetchApi('http://localhost:8000/api/showStatus')
 console.log(getStatus.data)
 const currentStatus = () => {
@@ -93,6 +63,16 @@ return terminalStatus
     part: 'terminal'
     }
     sendData('http://localhost:8000/api/updateStatus', data)
+    }
+
+    const showErrors = () => {
+        if (dataError !== null && dataError.errors !== null) {
+       const emergenciesErrors =  Object.values(dataError.errors).map((item:any) => {
+        return <p>{item}</p>
+         })
+         return emergenciesErrors
+        }
+
     }
 
     return (
@@ -120,36 +100,23 @@ return terminalStatus
                     </div>
                     <div className="bg-gray w-1/2 mx-auto  flex flex-col items-center rounded-md">
                     <h2 className="mb-10 text-3xl font-medium w-full text-center bg-red-700 p-4 rounded-t-md text-white">Add Emergencies</h2>
-                    <form className="flex flex-col w-9/12 gap-4" onSubmit={handleSubmit((data) => {
-        onSubmit(data);
-        sendEmergenciesData(data)
-
-    })}>
+                    <form className="flex flex-col w-9/12 gap-4" onSubmit={submit}>
 
     <label className="font-medium p-2 text-2xl text-center">
         Title
     </label>
     <input
         className="h-12 rounded-md font-medium p-2"
-        type="text"
-        {...register(
-            "title",
-            registerOptions.title
-        )}
-    ></input>
+        type="text" onChange={handleChangeTitle}></input>
     <small className="text-danger text-red-700 font-medium text-sm">
-        {errors?.title &&
-            errors.title.message}
+
     </small>
     <label className="font-medium p-2 text-2xl text-center">
         Description
     </label>
-    <textarea className="h-12 rounded-md font-medium p-2 text-center" {...register(
-            "description",
-            registerOptions.description)}></textarea>
+    <textarea className="h-12 rounded-md font-medium p-2 text-center" onChange={handleChangeDescription} ></textarea>
             <small className="text-danger text-red-700 font-medium text-sm">
-        {errors?.description &&
-            errors.description.message}
+
     </small>
     <button
         className="bg-green p-4 mb-4 text-white text-xl font-medium w-9/12 m-auto rounded-md mt-16 hover:bg-blue transition-all"
@@ -157,6 +124,7 @@ return terminalStatus
     >
         Add
     </button>
+    {showErrors()}
 </form>
                     </div>
                 </div>

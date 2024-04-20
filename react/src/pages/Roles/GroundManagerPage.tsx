@@ -21,6 +21,17 @@ interface Data {
 }
 
 const GroundManagerPage: FC = () => {
+
+    const [area, setArea] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [description, setDescription] = useState('');
+
+    const handleAreaChange = (e) => setArea(e.target.value);
+    const handleStartDateChange = (e) => setStartDate(e.target.value);
+    const handleEndDateChange = (e) => setEndDate(e.target.value);
+    const handleDescriptionChange = (e) => setDescription(e.target.value);
+
     const fetchEmergencies =  UseFetchApi('http://localhost:8000/api/areaOfRenovation')
 
     const [statusRwyL, setStatusRwyL] = useState()
@@ -32,37 +43,7 @@ const GroundManagerPage: FC = () => {
     const RunwayRightStatusHandler= (e:any)  => {
         setStatusRwyR(e.target.value)
     }
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<Data>();
 
-    const onSubmit = (data: any) => console.log(data);
-
-    const registerOptions = {
-        area: {
-            required: "Area is required",
-        },
-        startDate: {
-            required: "StartDate is required",
-        },
-        endDate: {
-            required: "EndDate is required",
-        },
-        description: {
-            required: "Description is required",
-            minLength: {
-                value: 20,
-                message: "Description must have at least 20 characters",
-            },
-            maxLength: {
-                value: 250,
-                message: "Description must have max 250 characters",
-            },
-        },
-
-    };
 
     const areaOfRenovationList = () => {
         const areas = fetchEmergencies.data;
@@ -79,25 +60,24 @@ const GroundManagerPage: FC = () => {
     };
 
 
+    const {dataError, sendData} = UseSendDataApi()
 
-    const sendRenovationData = async (data: any) => {
-        try {
-            await axios.post(
-                "http://localhost:8000/api/createRenovationsData",
-                data
+    const submit = (e:any) => {
+        e.preventDefault()
+        const formData = {
+            area,
+            startDate,
+            endDate,
+            description,
+        };
+        sendData('http://localhost:8000/api/createRenovationsData', formData)
+    }
 
-            );
-            window.location.reload();
-        } catch (error) {
-            console.log(error);
-        }
-    };
+
     const {user, token, role} = useStateContext();
     if (!token || (role !== 'Airport Ground Manager' && role !== 'Administrator')) {
         return <AccessDeniedPage onData={'Airport Ground Manager'}/>
     }
-
-    const {sendData} = UseSendDataApi()
 
     const setRunwayLeftStatus = (e:any) => {
         e.preventDefault()
@@ -119,6 +99,16 @@ const GroundManagerPage: FC = () => {
         sendData('http://localhost:8000/api/updateStatus', data)
         }
 
+
+    const showErrors = () => {
+        if (dataError !== null && dataError.errors !== null) {
+       const renovationsErrors =  Object.values(dataError.errors).map((item:any) => {
+        return <p>{item}</p>
+         })
+         return renovationsErrors
+        }
+
+    }
 
         const getStatus = UseFetchApi('http://localhost:8000/api/showStatus')
         const currentStatus = () => {
@@ -146,65 +136,42 @@ const GroundManagerPage: FC = () => {
                             Add Renowation Work
                         </h2>
                         <form
-                            className="flex flex-col w-9/12 gap-4"
-                            onSubmit={handleSubmit((data) => {
-                                onSubmit(data);
-                                sendRenovationData(data);
-                            })}
-                        >
+                            className="flex flex-col w-9/12 gap-4" onSubmit={submit} >
                             <label className="font-medium p-2 text-2xl text-center">
                                 Area of work
                             </label>
                             <select
-                                className="h-12 rounded-md font-medium p-2"
-                                {...register("area", registerOptions.area)}
-                            >
+                                className="h-12 rounded-md font-medium p-2" onChange={handleAreaChange}>
                                 {areaOfRenovationList()}
                             </select>
                             <small className="text-danger text-red-700 font-medium text-sm">
-                                {errors?.area && errors.area.message}
+
                             </small>
                             <label className="font-medium p-2 text-2xl text-center">
                                 Start Date
                             </label>
                             <input
                                 type="date"
-                                className="h-12 rounded-md font-medium p-2 text-center"
-                                {...register(
-                                    "startDate",
-                                    registerOptions.startDate
-                                )}
-                            ></input>
+                                className="h-12 rounded-md font-medium p-2 text-center" onChange={handleStartDateChange}></input>
                             <small className="text-danger text-red-700 font-medium text-sm">
-                                {errors?.startDate && errors.startDate.message}
+
                             </small>
                             <label className="font-medium p-2 text-2xl text-center">
                                 End Date
                             </label>
                             <input
                                 type="date"
-                                className="h-12 rounded-md font-medium p-2 text-center"
-                                {...register(
-                                    "endDate",
-                                    registerOptions.endDate
-                                )}
-                            ></input>
+                                className="h-12 rounded-md font-medium p-2 text-center" onChange={handleEndDateChange}></input>
                             <small className="text-danger text-red-700 font-medium text-sm">
-                                {errors?.endDate && errors.endDate.message}
+
                             </small>
                             <label className="font-medium p-2 text-2xl text-center  ">
                                 Description
                             </label>
                             <textarea
-                                className="h-16 rounded-md font-medium p-2"
-                                {...register(
-                                    "description",
-                                    registerOptions.description
-                                )}
-                            ></textarea>
+                                className="h-16 rounded-md font-medium p-2" onChange={handleDescriptionChange}></textarea>
                             <small className="text-danger text-red-700 font-medium text-sm">
-                                {errors?.description &&
-                                    errors.description.message}
+
                             </small>
                             <button
                                 className="bg-green p-4 mb-8 text-white text-xl font-medium w-9/12 m-auto rounded-md mt-16 hover:bg-blue transition-all"
@@ -212,6 +179,7 @@ const GroundManagerPage: FC = () => {
                             >
                                 Add
                             </button>
+                            {showErrors()}
                         </form>
                     </div>
                     <div className=" bg-gray w-1/2 mx-auto my-32 flex flex-col items-center rounded-md ">

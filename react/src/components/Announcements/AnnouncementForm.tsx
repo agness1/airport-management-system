@@ -1,7 +1,7 @@
-import { FC } from "react";
-import { useForm } from "react-hook-form";
+import { FC, useState } from "react";
 import axios from "axios";
 import UseFetchApi from '../../hooks/API/useFetchApi';
+import UseSendDataApi from "../../hooks/API/useSendDataApi";
 
 interface Data {
     type:string,
@@ -10,6 +10,13 @@ interface Data {
 }
 
 const AnnouncementForm:FC = () => {
+    const [type, setType] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+
+    const handleChangeType = (e:any) => setType(e.target.value);
+    const handleChangeTitle = (e:any) => setTitle(e.target.value);
+    const handleChangeDescription = (e:any) => setDescription(e.target.value);
 
 const announcementTypeListsData = UseFetchApi('http://localhost:8000/api/announcementType')
 
@@ -29,92 +36,52 @@ return (
     } else return <option value="">No data available</option>;
 }
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<Data>();
+const {dataError, sendData} = UseSendDataApi()
 
-    const onSubmit = (data: any) => console.log(data);
-
-    const sendAnnouncementData = async (data:any) => {
-        try {
-            await axios.post('http://localhost:8000/api/createAnnouncementsData', data);
-            window.location.reload();
-        } catch (error) {
-            console.error( error);
-        }
+    const submit = (e:any) => {
+        e.preventDefault()
+        const formData = {
+            type,
+            title,
+            description,
+        };
+        sendData('http://localhost:8000/api/createAnnouncementsData', formData)
     }
 
-    const registerOptions = {
-        type: {
-            required: "Type is required",
-        },
-        title: {
-            required: "Title is required",
-            minLength: {
-                value: 5,
-                message: "Title must have at least 5 characters",
-            },
-            maxLength: {
-                value: 20,
-                message: "Title must have max 20 characters",
-            },
-        },
-        description: {
-            required: "Description is required",
-            minLength: {
-                value: 20,
-                message: "Description must have at least 20 characters",
-            },
-            maxLength: {
-                value: 250,
-                message: "Description must have max 250 characters",
-            },
-        },
+    const showErrors = () => {
+        if (dataError !== null && dataError.errors !== null) {
+       const annoucementsErrors =  Object.values(dataError.errors).map((item:any) => {
+        return <p>{item}</p>
+         })
+         return annoucementsErrors
+        }
 
-     }
-
+    }
 
 return (
-    <form className="flex flex-col w-9/12 gap-4" onSubmit={handleSubmit((data) => {
-        onSubmit(data);
-        sendAnnouncementData(data)
-    })}>
+    <form className="flex flex-col w-9/12 gap-4" onSubmit={submit} >
         <label className="font-medium p-2 text-2xl text-center">Type</label>
-        <select className="h-12 rounded-md font-medium p-2" {...register(
-            "type",
-            registerOptions.type)}>
+        <select className="h-12 rounded-md font-medium p-2"  onChange={handleChangeType}>
           {announcementTypeList()}
         </select>
         <small className="text-danger text-red-700 font-medium text-sm">
-        {errors?.type &&
-            errors.type.message}
+        {}
     </small>
     <label className="font-medium p-2 text-2xl text-center">
         Title
     </label>
     <input
         className="h-12 rounded-md font-medium p-2"
-        type="text"
-        {...register(
-            "title",
-            registerOptions.title
-        )}
-    ></input>
+        type="text" onChange={handleChangeTitle}></input>
     <small className="text-danger text-red-700 font-medium text-sm">
-        {errors?.title &&
-            errors.title.message}
+        {}
     </small>
     <label className="font-medium p-2 text-2xl text-center">
         Description
     </label>
-    <textarea className="h-12 rounded-md font-medium p-2 text-center" {...register(
-            "description",
-            registerOptions.description)}></textarea>
+    <textarea className="h-12 rounded-md font-medium p-2 text-center" onChange={handleChangeDescription} ></textarea>
             <small className="text-danger text-red-700 font-medium text-sm">
-        {errors?.description &&
-            errors.description.message}
+        {}
     </small>
     <button
         className="bg-green p-4 mb-4 text-white text-xl font-medium w-9/12 m-auto rounded-md mt-16 hover:bg-blue transition-all"
@@ -122,6 +89,7 @@ return (
     >
         Add
     </button>
+    {showErrors()}
 </form>
 )
 }
