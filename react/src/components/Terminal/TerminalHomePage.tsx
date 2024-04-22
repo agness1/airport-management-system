@@ -2,14 +2,10 @@ import { FC, useEffect, useState } from "react";
 import UseFetchApi from "../../hooks/API/useFetchApi";
 
 const TerminalHomePage:FC = () => {
+
     const groundFetchData = UseFetchApi('http://localhost:8000/api/showEmergenciesData')
-
-
     const emergenciesData = groundFetchData.data
-
     const [status, setStatus] = useState()
-
-
     const openStatus = () => {
 return (
     <>
@@ -26,24 +22,20 @@ return (
        </>
 )
  }
-
  const getStatus = UseFetchApi('http://localhost:8000/api/showStatus')
-
-
-useEffect (() => {
+   useEffect (() => {
     if(getStatus.data !== null && getStatus.data !== undefined) {
         setStatus(getStatus.data.Terminal)
     }
 },[getStatus.data])
 
-
 const emergenciesList = () => {
     if(emergenciesData !== undefined && emergenciesData !== null) {
         const emergency = emergenciesData.map((item:any) => {
     return (
-        <div className="bg-white p-2">
-            <p>Title: {item.title}</p>
-            <p>Description: {item.description}</p>
+        <div className="flex flex-col items-center gap-4 w-11/12 m-auto border-2 border-red-800 shadow-lg my-4 text-black font-medium text-lg rounded-md">
+            <p className="bg-red-700 w-full text-white text-center p-2">{item.title}</p>
+            <p className="break-words w-full py-2 px-2">{item.description}</p>
         </div>
     )
         })
@@ -59,7 +51,7 @@ const emergenciesList = () => {
     {status === 'open' ? openStatus() : closedStatus()}
 
 </div>
-<h3 className="font-medium text-lg text-red-600 ">Emergencies</h3>
+<h3 className="font-medium text-2xl text-red-600 p-4 ">Emergencies</h3>
 
 {emergenciesList()}
 

@@ -9,6 +9,7 @@ import UseFetchApi from '../../hooks/API/useFetchApi';
 import AccessDeniedPage from "../auth/AccessDeniedPage";
 import { useStateContext } from "../../contexts/ContextProvider";
 import UseSendDataApi from "../../hooks/API/useSendDataApi";
+import FormValidaionError from "../../components/layout/FormValidaionError";
 
 
 
@@ -99,24 +100,15 @@ const GroundManagerPage: FC = () => {
         sendData('http://localhost:8000/api/updateStatus', data)
         }
 
-
-    const showErrors = () => {
-        if (dataError !== null && dataError.errors !== null) {
-       const renovationsErrors =  Object.values(dataError.errors).map((item:any) => {
-        return <p>{item}</p>
-         })
-         return renovationsErrors
-        }
-
-    }
-
         const getStatus = UseFetchApi('http://localhost:8000/api/showStatus')
         const currentStatus = () => {
         if(getStatus.data !== null && getStatus.data !== undefined) {
         return (
-            <div>
-                <p>RWYL <span>{getStatus.data.RWYL}</span></p>
-                <p>RWYR <span>{getStatus.data.RWYR}</span></p>
+            <div className="flex justify-center mt-8 items-center gap-4 py-4 font-medium text-xl">
+                <p>RWYL</p>
+                {getStatus.data.RWYL==='open' ? <div className="w-6 h-6 bg-green rounded-full"></div> : <div className="w-6 h-6 bg-red-700 rounded-full"></div>}
+                <p>RWYR</p>
+                {getStatus.data.RWYR==='open' ? <div className="w-6 h-6 bg-green rounded-full "></div> : <div className="w-6 h-6 bg-red-700 rounded-full"></div>}
             </div>
 
         )
@@ -129,9 +121,9 @@ const GroundManagerPage: FC = () => {
         <div className="flex">
             <DashboardInterface />
 
-            <div className="flex flex-col w-9/12 items-center mx-auto p-8">
-                <div className="flex gap-10 w-full justify-center mx-auto mb-8">
-                    <div className="bg-gray w-1/2 mx-auto my-32 flex flex-col items-center rounded-md ">
+            <div className="flex flex-col lg:w-9/12 w-full  items-center mx-auto lg:p-8">
+                <div className="flex flex-col lg:flex-row lg:gap-10 w-full justify-center mb-8">
+                    <div className="bg-gray lg:w-1/2 lg:my-32 my-16 mx-4 flex flex-col items-center rounded-md ">
                         <h2 className="mb-10 text-3xl font-medium w-full text-center bg-black p-4 rounded-t-md text-white">
                             Add Renowation Work
                         </h2>
@@ -174,21 +166,21 @@ const GroundManagerPage: FC = () => {
 
                             </small>
                             <button
-                                className="bg-green p-4 mb-8 text-white text-xl font-medium w-9/12 m-auto rounded-md mt-16 hover:bg-blue transition-all"
+                                className="bg-green p-4 mb-8 text-white text-xl font-medium w-9/12 m-auto rounded-md mt-4 hover:bg-blue transition-all"
                                 type="submit"
                             >
                                 Add
                             </button>
-                            {showErrors()}
+                            <FormValidaionError errors={dataError}/>
                         </form>
                     </div>
-                    <div className=" bg-gray w-1/2 mx-auto my-32 flex flex-col items-center rounded-md ">
+                    <div className=" bg-gray lg:w-1/2 w-11/12 mx-auto lg:my-32 flex flex-col items-center rounded-md ">
                         <h2 className="mb-10 text-3xl font-medium w-full text-center bg-black p-4 rounded-t-md text-white">
                             Ground Status
                         </h2>
                         <h3 className="text-3xl font-medium mb-8">Runways</h3>
 
-                        <form className="flex gap-8 m-4 items-center flex-wrap justify-center" onSubmit={setRunwayLeftStatus} >
+                        <form className="flex w-full lg:gap-8 gap-4 m-4 items-center flex-wrap justify-center" onSubmit={setRunwayLeftStatus} >
                             <p className="uppercase font-bold text-2xl">
                                 rwy l
                             </p>
@@ -204,7 +196,7 @@ const GroundManagerPage: FC = () => {
                                 Set Status
                             </button>
                         </form>
-                        <form className="flex gap-8 m-4 items-center flex-wrap justify-center" onSubmit={setRunwayRightStatus}>
+                        <form className="flex  w-full lg:gap-8 gap-4 m-4 items-center flex-wrap justify-center" onSubmit={setRunwayRightStatus}>
                             <p className="uppercase font-bold text-2xl">
                                 rwy r
                             </p>
@@ -220,28 +212,30 @@ const GroundManagerPage: FC = () => {
                                 Set Status
                             </button>
                         </form>
-                        <div>
-                            <p>Current runways status:</p>
+                        <div className="m-4">
+                            <p className="text-3xl font-medium">Current runways status</p>
                            {currentStatus()}
                         </div>
                     </div>
                 </div>
-                <div className="flex gap-10 w-full justify-center mx-auto mb-16">
-                    <div className="bg-gray w-1/2 mx-auto  flex flex-col items-center rounded-md">
+                <div className="flex flex-col lg:flex-row gap-10 w-full justify-center mx-auto mb-16 ">
+                    <div className="bg-gray lg:w-1/2 mx-auto  flex flex-col items-center rounded-md">
                         <h2 className="mb-10 text-3xl font-medium w-full text-center bg-black p-4 rounded-t-md text-white">
                             Add an Announcement{" "}
                         </h2>
                         <AnnouncementForm/>
                     </div>
-
-                    <div className=" bg-gray w-1/2 mx-auto  flex flex-col items-center rounded-md ">
+                    <div className=" bg-gray lg:w-1/2 lg:mx-auto mx-4 flex flex-col items-center rounded-md  ">
                         <h2 className="mb-10 text-3xl font-medium w-full text-center bg-black p-4 rounded-t-md text-white">
                             Manage Renowation Works
                         </h2>
                        <GroundManager/>
                     </div>
                 </div>
-                <AnnouncementMenager/>
+                <div className="flex flex-col lg:p-8 p-4 lg:w-1/2 bg-gray items-center gap-4 rounded-md">
+                    <AnnouncementMenager/>
+                </div>
+
             </div>
         </div>
     );

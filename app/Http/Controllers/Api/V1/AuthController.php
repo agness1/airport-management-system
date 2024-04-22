@@ -43,10 +43,8 @@ public function showRoleLists()
 
         $credentials = $request->validated();
 
-        if(!Auth::attempt($credentials)) {
-            return response ([
-                'message' => 'Provided email address or password is incorrect'
-            ]);
+        if (!Auth::attempt($credentials)) {
+            abort(422, 'Provided email address or password is incorrect');
         }
 
         /**  @var \App\Models\User $user */

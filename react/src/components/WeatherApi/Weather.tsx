@@ -8,7 +8,7 @@ const dataApi = UseFetchApi('http://api.weatherapi.com/v1/current.json?key=e12f6
 const showWeatherData = () => {
 if (dataApi.data !== null) {
 return (
-    <div className="h-full flex flex-col items-center justify-around p-2">
+    <div className="h-full flex flex-col items-center justify-around p-2 my-8 lg:my-0">
         <h3 className="text-white text-2xl">{dataApi.data.location.name}</h3>
         <p className="text-white text-xl">{dataApi.data.current.condition.text}</p>
         <img className="w-1/4" src={dataApi.data.current.condition.icon}></img>

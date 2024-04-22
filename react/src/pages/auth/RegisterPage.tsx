@@ -54,6 +54,7 @@ const data={email:email,role:userRole,password:password,name:name}
     setName('');
     setPassword('');
     setErrors(null);
+    window.location.reload();
     })
     .catch ((error:any) => {
     const response = error.response;
@@ -82,7 +83,7 @@ const data={email:email,role:userRole,password:password,name:name}
 return (
 <div className="flex">
     <DashboardInterface/>
-    <div className="flex w-1/2 flex-col justify-center mx-auto  px-6 py-12 lg:px-8">
+    <div className="flex lg:w-1/2 flex-col justify-center mx-auto  px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Create your account</h2>
       </div>
