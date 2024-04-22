@@ -1,6 +1,6 @@
 import { createContext, useState, useContext  } from "react";
 
-const StateContext = createContext( {
+const StateContext = createContext<any>( {
     user:null,
     token:null,
     setUser: () => {},
@@ -9,9 +9,9 @@ const StateContext = createContext( {
 
 export const ContextProvider = ({children}:any) => {
 
-    const [user, setUser] = useState({})
-    const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'))
-    const [role, _setRole] = useState(localStorage.getItem('ROLE'))
+    const [user, setUser] = useState<any>({})
+    const [token, _setToken] = useState<any>(localStorage.getItem('ACCESS_TOKEN'))
+    const [role, _setRole] = useState<string|null>(localStorage.getItem('ROLE'))
 
     const setToken = (token:any) => {
         _setToken(token)

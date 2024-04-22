@@ -1,24 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import DashboardInterface from "../../components/layout/DashboardInterface";
-import { useForm } from "react-hook-form";
 import FlightOperationsManager from "../../components/FlightOperations/FlightOperationsManager";
 import { useStateContext } from "../../contexts/ContextProvider";
 import UseFetchApi from "../../hooks/API/useFetchApi";
-import { Navigate } from "react-router-dom";
 import UseSendDataApi from "../../hooks/API/useSendDataApi";
 import AccessDeniedPage from "../auth/AccessDeniedPage";
-import { createRef } from "react";
 import FormValidaionError from "../../components/layout/FormValidaionError";
-
-interface Data {
-    time: string;
-    aircraft: string;
-    airline: string;
-    callSign: string;
-    type: string;
-    gate: string;
-    airport: string;
-}
 
 const FlightOperationsSupervisorPage: FC = () => {
     const [type, setType] = useState("");
@@ -28,8 +15,7 @@ const FlightOperationsSupervisorPage: FC = () => {
     const [gate, setGate] = useState("");
     const [airport, setAirport] = useState("");
     const [aircraft, setAircraft] = useState("");
-    const [error, setError] = useState("");
-    console.log(type);
+   
     const handleChangeType = (e: any) => setType(e.target.value);
     const handleChangeTime = (e: any) => setTime(e.target.value);
     const handleChangeAirline = (e: any) => setAirline(e.target.value);
@@ -122,7 +108,7 @@ const FlightOperationsSupervisorPage: FC = () => {
 
     const { dataError, sendData } = UseSendDataApi();
 
-    const { user, token, role } = useStateContext();
+    const { token, role } = useStateContext();
 
     if (
         !token ||

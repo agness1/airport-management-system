@@ -2,21 +2,12 @@ import { FC, useState } from "react";
 import DashboardInterface from "../../components/layout/DashboardInterface";
 import AnnouncementForm from "../../components/Announcements/AnnouncementForm";
 import AnnouncementMenager from "../../components/Announcements/AnnouncementMenager";
-import { useForm } from "react-hook-form";
 import TerminalManager from "../../components/Terminal/TerminalManager";
-import axios from "axios";
 import { useStateContext } from "../../contexts/ContextProvider";
 import AccessDeniedPage from "../auth/AccessDeniedPage";
-import { createRef } from "react";
 import UseSendDataApi from "../../hooks/API/useSendDataApi";
 import UseFetchApi from "../../hooks/API/useFetchApi";
 import FormValidaionError from "../../components/layout/FormValidaionError";
-
-interface Data {
-    type: string;
-    title: string;
-    description: string;
-}
 
 const TerminalManagerPage: FC = () => {
     const [title, setTitle] = useState("");
@@ -40,7 +31,7 @@ const TerminalManagerPage: FC = () => {
         sendData("http://localhost:8000/api/createEmergenciesData", formData);
     };
 
-    const { user, token, role } = useStateContext();
+    const {token, role } = useStateContext();
     if (!token || (role !== "Terminal Manager" && role !== "Administrator")) {
         return <AccessDeniedPage onData={"Terminal Manager"} />;
     }

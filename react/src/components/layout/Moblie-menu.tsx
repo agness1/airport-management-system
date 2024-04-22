@@ -7,10 +7,7 @@ import Divider from "@mui/material/Divider";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ChairIcon from "@mui/icons-material/Chair";
 import HomeIcon from "@mui/icons-material/Home";
-import CallIcon from "@mui/icons-material/Call";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
@@ -19,7 +16,7 @@ import { useStateContext } from "../../contexts/ContextProvider";
 import axiosClient from "../../axios-client";
 
 export default function MobileNavigation() {
-    const {user, token, setUser, setToken, setRole, role} = useStateContext();
+    const {token, setUser, setToken, setRole, role} = useStateContext();
     const onLogout = (ev:any) => {
         ev.preventDefault()
         axiosClient.post('/logout')

@@ -6,7 +6,7 @@ import MobileNavigation from "./Moblie-menu";
 
 const Navigation: FC = () => {
 
-const {user, token, setUser, setToken, setRole, role} = useStateContext();
+const {token, setUser, setToken, setRole, role} = useStateContext();
 
  const onLogout = (ev:any) => {
         ev.preventDefault()

@@ -18,7 +18,7 @@ const[name, setName] = useState<Data>();
 const[email, setEmail] = useState<Data>();
 const[password, setPassword] = useState<Data>();
 console.log(userRole)
-const [errors, setErrors] = useState(null)
+const [errors, setErrors] = useState<any>(null)
 
 const handleUserRoleChange = (event:any) => {
     setUserRole(event.target.value);

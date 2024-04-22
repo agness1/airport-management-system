@@ -5,6 +5,7 @@ const GroundHomePage: FC = () => {
 
     const [statusRwyL, setStatusRwyL] = useState()
     const [statusRwyR, setStatusRwyR] = useState()
+    const [areaData, setAreaData] = useState<any>();
 
     const getStatus = UseFetchApi('http://localhost:8000/api/showStatus')
 
@@ -38,10 +39,15 @@ const groundFetchData = UseFetchApi('http://localhost:8000/api/showRenovationsDa
 
  const areaOfRenovationData = groundFetchData.data
 
+useEffect(() => {
+setAreaData(areaOfRenovationData)
+}, [areaOfRenovationData])
+
+
 const renovationList =  () => {
 
-if(areaOfRenovationData !== undefined && areaOfRenovationData !== null) {
-    const renovations = areaOfRenovationData.map((item:any) => {
+if(areaData !== undefined && areaData !== null) {
+    const renovations = areaData.map((item:any) => {
         return (
             <tr>
     <td className=" border-2 p-2  text-center">{item.area}</td>

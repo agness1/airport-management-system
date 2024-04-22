@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const UseFetchApi = (url:string) => {
 
-    const [data, setdata] = useState(null);
+    const [data, setdata] = useState<any>(null);
 
     const [dataError, setDataError] = useState(null);
     useEffect(() => {

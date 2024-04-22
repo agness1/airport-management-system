@@ -1,21 +1,26 @@
-import { FC,} from 'react'
+import { FC, useEffect, useState} from 'react'
 import DeleteApi from '../../hooks/API/useDeleteApi';
 import UseFetchApi from '../../hooks/API/useFetchApi';
 
 const FlightOperationsManager:FC = () => {
+const [data, setData] = useState<any>();
 
 const fetchFlightData =  UseFetchApi('http://localhost:8000/api/flightData')
-
-const flightOperationData = fetchFlightData.data
 
 const deleteApi = async (url:string, id:string) => {
     const {message} = await DeleteApi(url,id)
     console.log(message)
 }
 
+const flightOperationData = fetchFlightData.data
+
+useEffect(() => {
+setData(flightOperationData)
+},[flightOperationData])
+
 const flightOperationList = () => {
-    if(flightOperationData !== undefined && flightOperationData !== null) {
-        const operaionData = flightOperationData.map((item:any) => {
+    if(data !== undefined && data !== null) {
+        const operaionData = data.map((item:any) => {
             return (
         <div className='w-full bg-white p-2 rounded-md my-8'>
             <div className='flex flex-col lg:flex-row gap-4 justify-around items-center font-medium'>

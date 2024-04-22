@@ -1,11 +1,9 @@
 import { FC } from "react";
 import DashboardInterface from "../../components/layout/DashboardInterface";
-import {Link} from "react-router-dom";
 import axiosClient from "../../axios-client.js";
 import {createRef} from "react";
 import { useStateContext } from "../../contexts/ContextProvider.js";
 import { useState } from "react";
-import { redirect } from 'react-router-dom';
 const SignInPage:FC = () => {
 const emailRef:any = createRef()
   const passwordRef:any = createRef()

@@ -1,7 +1,5 @@
 import { FC, useState } from "react";
 import DashboardInterface from "../../components/layout/DashboardInterface";
-import { useForm } from "react-hook-form";
-import axios from "axios";
 import AnnouncementForm from "../../components/Announcements/AnnouncementForm";
 import AnnouncementMenager from "../../components/Announcements/AnnouncementMenager";
 import GroundManager from "../../components/Ground/GroundManager";
@@ -12,15 +10,6 @@ import UseSendDataApi from "../../hooks/API/useSendDataApi";
 import FormValidaionError from "../../components/layout/FormValidaionError";
 
 
-
-interface Data {
-    area: string;
-    startDate: string;
-    endDate: string;
-    description: string;
-
-}
-
 const GroundManagerPage: FC = () => {
 
     const [area, setArea] = useState('');
@@ -28,10 +17,10 @@ const GroundManagerPage: FC = () => {
     const [endDate, setEndDate] = useState('');
     const [description, setDescription] = useState('');
 
-    const handleAreaChange = (e) => setArea(e.target.value);
-    const handleStartDateChange = (e) => setStartDate(e.target.value);
-    const handleEndDateChange = (e) => setEndDate(e.target.value);
-    const handleDescriptionChange = (e) => setDescription(e.target.value);
+    const handleAreaChange = (e:any) => setArea(e.target.value);
+    const handleStartDateChange = (e:any) => setStartDate(e.target.value);
+    const handleEndDateChange = (e:any) => setEndDate(e.target.value);
+    const handleDescriptionChange = (e:any) => setDescription(e.target.value);
 
     const fetchEmergencies =  UseFetchApi('http://localhost:8000/api/areaOfRenovation')
 
@@ -75,7 +64,7 @@ const GroundManagerPage: FC = () => {
     }
 
 
-    const {user, token, role} = useStateContext();
+    const {token, role} = useStateContext();
     if (!token || (role !== 'Airport Ground Manager' && role !== 'Administrator')) {
         return <AccessDeniedPage onData={'Airport Ground Manager'}/>
     }
