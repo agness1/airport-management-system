@@ -52,7 +52,7 @@ Installation Instructions
     
 ### Steps to Install
 
-1. git clone https://github.com/yourusername/project-name.gitReplace **yourusername** and **project-name** with your actual GitHub username and project name.
+1. git clone
     
 2.  cd project-name
     
